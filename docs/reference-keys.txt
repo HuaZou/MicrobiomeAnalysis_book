@@ -1,8 +1,8 @@
 prerequisites
 software
 requirements
+preface
 introduction
-introduction-1
 convert-inputs-into-phyloseq-class-object
 inputs-from-dada2
 inputs-from-qiime2

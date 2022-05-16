@@ -1,7 +1,7 @@
-# bookdown_demo
+# MicrobiomeAnalysis
 
 
-This is demo of R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
+ A comprehensive R package for managing and analyzing microbiome data
 
 
 

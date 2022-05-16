@@ -1,6 +1,6 @@
 Package: MicrobiomeAnalysis
 Type: Book
-Title: MicrobiomeAnalysis
+Title: "MicrobiomeAnalysis: A comprehensive R package for managing and analyzing microbiome data"
 Version: 0.0.1
 Imports: bookdown
 Remotes: HuaZou/MicrobiomeAnalysis
