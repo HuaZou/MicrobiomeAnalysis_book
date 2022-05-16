@@ -1,0 +1,6 @@
+book_filename: "MicrobiomeAnalysis: A comprehensive R package for managing and analyzing microbiome data"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+output_dir: "docs"

@@ -1,0 +1,6 @@
+Package: MicrobiomeAnalysis
+Type: Book
+Title: MicrobiomeAnalysis
+Version: 0.0.1
+Imports: bookdown
+Remotes: HuaZou/MicrobiomeAnalysis
