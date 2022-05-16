@@ -14,6 +14,14 @@ description: "A comprehensive R package for managing and analyzing microbiome da
 
 # Prerequisites
 
+
+## Software
+
 * R 4.1.2 or later release [Download link](https://mirrors.tuna.tsinghua.edu.cn/CRAN/).
 
 * Rstudio Desktop [Download link](https://www.rstudio.com/products/rstudio/download/#download).
+
+## Requirements
+
+The methods in **MicrobiomeAnalysis** requires that the users should have basic knowledge on R language and statistical background. **Statistical Analysis of Microbiome Data with R** [@xia2018statistical] might be a guide book for you.
+

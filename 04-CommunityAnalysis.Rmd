@@ -1,0 +1,11 @@
+# Multivariate Community Analysis
+
+## Multivariate homogeneity of groups dispersions (variances)
+
+## Permutational Multivariate Analysis of Variance (PERMANOVA)
+
+## Mantel Test (MANTEL)
+
+## Analysis of Similarity (ANOSIM)
+
+## Multi-response Permutation Procedures (MRPP)
