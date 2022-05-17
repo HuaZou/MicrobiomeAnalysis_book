@@ -4,6 +4,7 @@ requirements
 preface
 introduction
 convert-inputs-into-phyloseq-class-object
+loading-packages
 inputs-from-dada2
 inputs-from-qiime2
 multivariate-community-analysis

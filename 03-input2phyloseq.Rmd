@@ -1,5 +1,60 @@
 # Convert inputs into phyloseq-class object
 
+
+## loading packages
+```{r, echo=TRUE, results="hide", warning=FALSE, message=FALSE, fig.align="center"}
+library(MicrobiomeAnalysis)
+library(dplyr)
+library(tibble)
+library(phyloseq)
+```
+
+
 ## inputs from dada2
+```{r, warning=FALSE, message=FALSE}
+seq_tab <- readRDS(
+  system.file("extdata", "dada2_seqtab.rds",
+     package = "MicrobiomeAnalysis"))
+
+tax_tab <- readRDS(
+  system.file("extdata", "dada2_taxtab.rds",
+    package = "MicrobiomeAnalysis"))
+
+sam_tab <- read.table(
+  system.file("extdata", "dada2_samdata.txt",
+     package = "MicrobiomeAnalysis"), 
+  sep = "\t", header = TRUE, row.names = 1)
+
+ps <- import_dada2(seq_tab = seq_tab, 
+                   tax_tab = tax_tab, 
+                   sam_tab = sam_tab)
+
+ps
+```
 
 ## inputs from qiime2
+```{r, warning=FALSE, message=FALSE}
+otuqza_file <- system.file(
+     "extdata", "table.qza",
+     package = "MicrobiomeAnalysis")
+
+taxaqza_file <- system.file(
+     "extdata", "taxonomy.qza",
+     package = "MicrobiomeAnalysis")
+
+sample_file <- system.file(
+     "extdata", "sample-metadata.tsv",
+     package = "MicrobiomeAnalysis")
+
+ treeqza_file <- system.file(
+     "extdata", "tree.qza",
+     package = "MicrobiomeAnalysis")
+ 
+ ps <- import_qiime2(
+     otu_qza = otuqza_file, taxa_qza = taxaqza_file,
+     sam_tab = sample_file, tree_qza = treeqza_file)
+ ps
+```
+
+
+

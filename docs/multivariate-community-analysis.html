@@ -23,7 +23,7 @@
 <meta name="author" content="Hua Zou" />
 
 
-<meta name="date" content="2022-05-16" />
+<meta name="date" content="2022-05-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="convert-inputs-into-phyloseq-class-object.html"/>
-
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,6 +54,70 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
@@ -103,8 +167,9 @@ div.csl-indent {
 <li class="chapter" data-level="3" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>3</b> Introduction</a></li>
 <li class="chapter" data-level="4" data-path="convert-inputs-into-phyloseq-class-object.html"><a href="convert-inputs-into-phyloseq-class-object.html"><i class="fa fa-check"></i><b>4</b> Convert inputs into phyloseq-class object</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="convert-inputs-into-phyloseq-class-object.html"><a href="convert-inputs-into-phyloseq-class-object.html#inputs-from-dada2"><i class="fa fa-check"></i><b>4.1</b> inputs from dada2</a></li>
-<li class="chapter" data-level="4.2" data-path="convert-inputs-into-phyloseq-class-object.html"><a href="convert-inputs-into-phyloseq-class-object.html#inputs-from-qiime2"><i class="fa fa-check"></i><b>4.2</b> inputs from qiime2</a></li>
+<li class="chapter" data-level="4.1" data-path="convert-inputs-into-phyloseq-class-object.html"><a href="convert-inputs-into-phyloseq-class-object.html#loading-packages"><i class="fa fa-check"></i><b>4.1</b> loading packages</a></li>
+<li class="chapter" data-level="4.2" data-path="convert-inputs-into-phyloseq-class-object.html"><a href="convert-inputs-into-phyloseq-class-object.html#inputs-from-dada2"><i class="fa fa-check"></i><b>4.2</b> inputs from dada2</a></li>
+<li class="chapter" data-level="4.3" data-path="convert-inputs-into-phyloseq-class-object.html"><a href="convert-inputs-into-phyloseq-class-object.html#inputs-from-qiime2"><i class="fa fa-check"></i><b>4.3</b> inputs from qiime2</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivariate-community-analysis.html"><a href="multivariate-community-analysis.html"><i class="fa fa-check"></i><b>5</b> Multivariate Community Analysis</a>
 <ul>
@@ -114,6 +179,7 @@ div.csl-indent {
 <li class="chapter" data-level="5.4" data-path="multivariate-community-analysis.html"><a href="multivariate-community-analysis.html#analysis-of-similarity-anosim"><i class="fa fa-check"></i><b>5.4</b> Analysis of Similarity (ANOSIM)</a></li>
 <li class="chapter" data-level="5.5" data-path="multivariate-community-analysis.html"><a href="multivariate-community-analysis.html#multi-response-permutation-procedures-mrpp"><i class="fa fa-check"></i><b>5.5</b> Multi-response Permutation Procedures (MRPP)</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -136,26 +202,134 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="multivariate-community-analysis" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Multivariate Community Analysis<a href="multivariate-community-analysis.html#multivariate-community-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Know more details of the aftermentioned statistical methods to see <span class="citation">(<a href="#ref-xia2018statistical" role="doc-biblioref">Xia et al. 2018</a>)</span>.</p>
 <div id="multivariate-homogeneity-of-groups-dispersions-variances" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Multivariate homogeneity of groups dispersions (variances)<a href="multivariate-community-analysis.html#multivariate-homogeneity-of-groups-dispersions-variances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">(<a href="#ref-anderson2006multivariate" role="doc-biblioref">Anderson, Ellingsen, and McArdle 2006</a>)</span></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="multivariate-community-analysis.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;enterotypes_arumugam&quot;</span>)</span>
+<span id="cb6-2"><a href="multivariate-community-analysis.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_betadisper</span>(enterotypes_arumugam, <span class="at">variable =</span> <span class="st">&quot;Enterotype&quot;</span>, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Permutation test for homogeneity of multivariate dispersions
+## Permutation: free
+## Number of permutations: 999
+## 
+## Response: Distances
+##           Df  Sum Sq  Mean Sq      F N.Perm Pr(&gt;F)  
+## Groups     5 0.20549 0.041098 2.6297    999  0.048 *
+## Residuals 33 0.51573 0.015628                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Pairwise comparisons:
+## (Observed p-value below diagonal, permuted p-value above diagonal)
+##                     Enterotype 1 Enterotype 2 Enterotype 3 Enterotype 3 - twin   Infant Unclassified
+## Enterotype 1                         0.792000     0.587000                     0.062000        0.615
+## Enterotype 2            0.783014                  0.844000                     0.078000        0.394
+## Enterotype 3            0.568759     0.833759                                  0.028000        0.320
+## Enterotype 3 - twin                                                                                 
+## Infant                  0.055983     0.086697     0.025895                                     0.163
+## Unclassified            0.599016     0.393409     0.341476                     0.166317</code></pre>
 </div>
 <div id="permutational-multivariate-analysis-of-variance-permanova" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Permutational Multivariate Analysis of Variance (PERMANOVA)<a href="multivariate-community-analysis.html#permutational-multivariate-analysis-of-variance-permanova" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">(<a href="#ref-anderson2014permutational" role="doc-biblioref">Anderson 2014</a>)</span></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="multivariate-community-analysis.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_PERMANOVA</span>(enterotypes_arumugam, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span></code></pre></div>
+<pre><code>##                            SumsOfSample Df  SumsOfSqs    MeanSqs   F.Model         R2 Pr(&gt;F) AdjustedPvalue
+## SampleID                             39 38 5.52824570 0.14548015 0.0000000 1.00000000  1.000    1.000000000
+## Sample.Id                            39 38 5.52824570 0.14548015 0.0000000 1.00000000  1.000    1.000000000
+## Enterotype                           39  5 2.56076401 0.51215280 5.6954159 0.46321458  0.001    0.001666667
+## Nationality                          39  5 2.05227964 0.41045593 3.8967715 0.37123524  0.001    0.001666667
+## Clinical.Status                      39  4 0.93273067 0.23318267 1.7252061 0.16872091  0.075    0.107142857
+## Gender                               39  1 0.08064267 0.08064267 0.5477232 0.01458739  0.829    1.000000000
+## Project                              39  5 2.29920371 0.45984074 4.6994572 0.41590114  0.001    0.001666667
+## Clinical.Status..filtered.           39  5 1.59553654 0.31910731 2.6776811 0.28861534  0.001    0.001666667
+## Nationality..filtered.               39  5 2.38348358 0.47669672 5.0022835 0.43114646  0.001    0.001666667
+## Gender..filtered.                    39  2 0.88556964 0.44278482 3.4334193 0.16018999  0.001    0.001666667</code></pre>
 </div>
 <div id="mantel-test-mantel" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Mantel Test (MANTEL)<a href="multivariate-community-analysis.html#mantel-test-mantel" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">(<a href="#ref-mantel1967detection" role="doc-biblioref">Mantel 1967</a>)</span></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="multivariate-community-analysis.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_MANTEL</span>(enterotypes_arumugam,</span>
+<span id="cb10-2"><a href="multivariate-community-analysis.html#cb10-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">y_variables =</span> <span class="fu">c</span>(<span class="st">&quot;Enterotype&quot;</span>, <span class="st">&quot;Clinical.Status&quot;</span>),</span>
+<span id="cb10-3"><a href="multivariate-community-analysis.html#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">z_variables =</span> <span class="fu">c</span>(<span class="st">&quot;Nationality&quot;</span>, <span class="st">&quot;Gender&quot;</span>),</span>
+<span id="cb10-4"><a href="multivariate-community-analysis.html#cb10-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">norm =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-5"><a href="multivariate-community-analysis.html#cb10-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">method =</span> <span class="st">&quot;mantel.partial&quot;</span>,</span>
+<span id="cb10-6"><a href="multivariate-community-analysis.html#cb10-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">method_dist =</span> <span class="fu">c</span>(<span class="st">&quot;bray&quot;</span>, <span class="st">&quot;euclidean&quot;</span>, <span class="st">&quot;jaccard&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## Partial Mantel statistic based on Spearman&#39;s rank correlation rho 
+## 
+## Call:
+## vegan::mantel.partial(xdis = x_dis, ydis = y_dis, zdis = z_dis,      method = method_cor, permutations = 999) 
+## 
+## Mantel statistic r: 0.4516 
+##       Significance: 0.001 
+## 
+## Upper quantiles of permutations (null model):
+##   90%   95% 97.5%   99% 
+## 0.102 0.139 0.163 0.211 
+## Permutation: free
+## Number of permutations: 999</code></pre>
 </div>
 <div id="analysis-of-similarity-anosim" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Analysis of Similarity (ANOSIM)<a href="multivariate-community-analysis.html#analysis-of-similarity-anosim" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">(<a href="#ref-clarke1993non" role="doc-biblioref">Clarke 1993</a>)</span></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="multivariate-community-analysis.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_ANOSIM</span>(enterotypes_arumugam, <span class="at">variable =</span> <span class="st">&quot;Enterotype&quot;</span>, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## vegan::anosim(x = dis, grouping = datphe, permutations = 999) 
+## Dissimilarity: bray 
+## 
+## ANOSIM statistic R: 0.6064 
+##       Significance: 0.001 
+## 
+## Permutation: free
+## Number of permutations: 999</code></pre>
 </div>
 <div id="multi-response-permutation-procedures-mrpp" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">5.5</span> Multi-response Permutation Procedures (MRPP)<a href="multivariate-community-analysis.html#multi-response-permutation-procedures-mrpp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">(<a href="#ref-mielke1991application" role="doc-biblioref">Mielke Jr 1991</a>)</span></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="multivariate-community-analysis.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_MRPP</span>(enterotypes_arumugam, <span class="at">variable =</span> <span class="st">&quot;Enterotype&quot;</span>, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## vegan::mrpp(dat = dis, grouping = datphe, permutations = 999) 
+## 
+## Dissimilarity index: bray 
+## Weights for groups:  n 
+## 
+## Class means and counts:
+## 
+##       Enterotype 1 Enterotype 2 Enterotype 3 Enterotype 3 - twin Infant Unclassified
+## delta 0.3503       0.3721       0.3674         NaN               0.6499 0.3341      
+## n     8            6            18           1                   4      2           
+## 
+## Chance corrected within-group agreement A: 0.2272 
+## Based on observed delta 0.3925 and expected delta 0.5079 
+## 
+## Significance of delta: 0.001 
+## Permutation: free
+## Number of permutations: 999</code></pre>
 
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
+<div id="ref-anderson2014permutational" class="csl-entry">
+Anderson, Marti J. 2014. <span>“Permutational Multivariate Analysis of Variance (PERMANOVA).”</span> <em>Wiley Statsref: Statistics Reference Online</em>, 1–15.
+</div>
+<div id="ref-anderson2006multivariate" class="csl-entry">
+Anderson, Marti J, Kari E Ellingsen, and Brian H McArdle. 2006. <span>“Multivariate Dispersion as a Measure of Beta Diversity.”</span> <em>Ecology Letters</em> 9 (6): 683–93.
+</div>
+<div id="ref-clarke1993non" class="csl-entry">
+Clarke, K Robert. 1993. <span>“Non-Parametric Multivariate Analyses of Changes in Community Structure.”</span> <em>Australian Journal of Ecology</em> 18 (1): 117–43.
+</div>
+<div id="ref-mantel1967detection" class="csl-entry">
+Mantel, Nathan. 1967. <span>“The Detection of Disease Clustering and a Generalized Regression Approach.”</span> <em>Cancer Research</em> 27 (2 Part 1): 209–20.
+</div>
+<div id="ref-mielke1991application" class="csl-entry">
+Mielke Jr, Paul W. 1991. <span>“The Application of Multivariate Permutation Methods Based on Distance Functions in the Earth Sciences.”</span> <em>Earth-Science Reviews</em> 31 (1): 55–71.
+</div>
+<div id="ref-xia2018statistical" class="csl-entry">
 Xia, Yinglin, Jun Sun, Ding-Geng Chen, et al. 2018. <em>Statistical Analysis of Microbiome Data with r</em>. Vol. 847. Springer.
-</div>
-</div>
 </div>
 </div>
             </section>
@@ -163,8 +337,8 @@ Xia, Yinglin, Jun Sun, Ding-Geng Chen, et al. 2018. <em>Statistical Analysis of 
           </div>
         </div>
       </div>
-<a href="convert-inputs-into-phyloseq-class-object.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="convert-inputs-into-phyloseq-class-object.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
