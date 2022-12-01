@@ -1,0 +1,6 @@
+Package: MicrobiomeAnalysis_book
+Type: Book
+Title: Tutorial for R MicrobiomeAnalysis package
+Version: 0.0.1
+Imports: bookdown
+Remotes: HuaZou/MicrobiomeAnalysis_book
