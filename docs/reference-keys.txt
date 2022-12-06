@@ -1,3 +1,10 @@
-prerequisites
+fig:unnamed-chunk-1
+introduction
+input-data
+methods
+some-background-knowledge
+key-publications
+outline-of-this-tutorial
+citation
 how-to-install-microbiomeanalysis
 hwo-to-convert-inputs-into-phyloseq
