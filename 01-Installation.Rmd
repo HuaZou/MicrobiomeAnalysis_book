@@ -1,6 +1,48 @@
 # How to install MicrobiomeAnalysis
 
 
+Before installation, you should install the two following software.
+
 + R 4.1.2 [@R-base] or later release [Download link](https://mirrors.tuna.tsinghua.edu.cn/CRAN/).
 
 + Rstudio Desktop [Download link](https://www.rstudio.com/products/rstudio/download/#download).
+
+
+## Installation
+
+First, installing either R package devtools or remotes:
+
+```r
+if (!requireNamespace(c("devtools", "remotes"), quietly = TRUE)) {
+  install.packages(c("devtools", "remotes"))
+}
+
+devtools::install_github("HuaZou/MicrobiomeAnalysis")
+# remotes::install_github("HuaZou/MicrobiomeAnalysis")
+
+# specific release
+devtools::install_github("HuaZou/MicrobiomeAnalysis@release-v1.0.3")
+```
+
+
+Alternatively, you can install the latest released package from [releases](https://github.com/HuaZou/MicrobiomeAnalysis/releases):
+
+```r
+install.packages("MicrobiomeAnalysis*.tar.gz", repos = NULL, type = "source")
+```
+
+The `MicrobiomeAnalysis` package took `dplyr`, `phyloseq`, `purrr`, `magrittr`, `tibble`, `metagenomeSeq`, `biomformat`, `SummarizedExperiment`, `ggplot2` and `caret` etc as directly import packages.
+
+
+## Vignette
+
+For brief introduction to use `MicrobiomeAnalysis`, please refer to vignette and choose _html_ format to do a practice.
+```r
+utils::browseVignettes(package="MicrobiomeAnalysis")
+```
+
+## Authors
+
++ [Hua Zou](mailto:zouhua1@outlook.com)
+
+
