@@ -11,3 +11,14 @@ installation
 vignette
 authors
 data-processing
+loading-packages
+importing-data
+extracting-specific-levels
+summarizing-specific-levels
+data-transformation
+data-imputation
+data-normalization
+data-scaling
+data-trimming
+data-filtering
+systematic-information

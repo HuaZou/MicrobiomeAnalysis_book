@@ -23,7 +23,7 @@
 <meta name="author" content="Hua Zou" />
 
 
-<meta name="date" content="2023-01-10" />
+<meta name="date" content="2023-01-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -175,7 +175,20 @@ div.csl-indent {
 <li class="chapter" data-level="2.2" data-path="how-to-install-microbiomeanalysis.html"><a href="how-to-install-microbiomeanalysis.html#vignette"><i class="fa fa-check"></i><b>2.2</b> Vignette</a></li>
 <li class="chapter" data-level="2.3" data-path="how-to-install-microbiomeanalysis.html"><a href="how-to-install-microbiomeanalysis.html#authors"><i class="fa fa-check"></i><b>2.3</b> Authors</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-processing.html"><a href="data-processing.html"><i class="fa fa-check"></i><b>3</b> Data Processing</a></li>
+<li class="chapter" data-level="3" data-path="data-processing.html"><a href="data-processing.html"><i class="fa fa-check"></i><b>3</b> Data Processing</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-processing.html"><a href="data-processing.html#loading-packages"><i class="fa fa-check"></i><b>3.1</b> Loading Packages</a></li>
+<li class="chapter" data-level="3.2" data-path="data-processing.html"><a href="data-processing.html#importing-data"><i class="fa fa-check"></i><b>3.2</b> Importing Data</a></li>
+<li class="chapter" data-level="3.3" data-path="data-processing.html"><a href="data-processing.html#extracting-specific-levels"><i class="fa fa-check"></i><b>3.3</b> Extracting specific levels</a></li>
+<li class="chapter" data-level="3.4" data-path="data-processing.html"><a href="data-processing.html#summarizing-specific-levels"><i class="fa fa-check"></i><b>3.4</b> Summarizing specific levels</a></li>
+<li class="chapter" data-level="3.5" data-path="data-processing.html"><a href="data-processing.html#data-transformation"><i class="fa fa-check"></i><b>3.5</b> Data Transformation</a></li>
+<li class="chapter" data-level="3.6" data-path="data-processing.html"><a href="data-processing.html#data-imputation"><i class="fa fa-check"></i><b>3.6</b> Data Imputation</a></li>
+<li class="chapter" data-level="3.7" data-path="data-processing.html"><a href="data-processing.html#data-normalization"><i class="fa fa-check"></i><b>3.7</b> Data Normalization</a></li>
+<li class="chapter" data-level="3.8" data-path="data-processing.html"><a href="data-processing.html#data-scaling"><i class="fa fa-check"></i><b>3.8</b> Data Scaling</a></li>
+<li class="chapter" data-level="3.9" data-path="data-processing.html"><a href="data-processing.html#data-trimming"><i class="fa fa-check"></i><b>3.9</b> Data Trimming</a></li>
+<li class="chapter" data-level="3.10" data-path="data-processing.html"><a href="data-processing.html#data-filtering"><i class="fa fa-check"></i><b>3.10</b> Data Filtering</a></li>
+<li class="chapter" data-level="3.11" data-path="data-processing.html"><a href="data-processing.html#systematic-information"><i class="fa fa-check"></i><b>3.11</b> Systematic Information</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -199,7 +212,548 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="data-processing" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data Processing<a href="data-processing.html#data-processing" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Outline of this Chapter:</p>
+<ul>
+<li><p><a href="data-processing.html#loading-packages">Loading Packages</a></p></li>
+<li><p><a href="data-processing.html#importing-data">Importing Data</a></p></li>
+<li><p><a href="data-processing.html#extracting-specific-levels">Extracting specific levels</a></p></li>
+<li><p><a href="data-processing.html#summarizing-specific-levels">Summarizing specific levels</a></p></li>
+<li><p><a href="data-processing.html#data-transformation">Data Transformation</a></p></li>
+<li><p><a href="data-processing.html#data-imputation">Data Imputation</a></p></li>
+<li><p><a href="data-processing.html#data-normalization">Data Normalization</a></p></li>
+<li><p><a href="data-processing.html#data-scaling">Data Scaling</a></p></li>
+<li><p><a href="data-processing.html#data-trimming">Data Trimming</a></p></li>
+<li><p><a href="data-processing.html#data-filtering">Data Filtering</a></p></li>
+</ul>
+<div id="loading-packages" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Loading Packages<a href="data-processing.html#loading-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-processing.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="data-processing.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb4-3"><a href="data-processing.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
+<span id="cb4-4"><a href="data-processing.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SummarizedExperiment)</span>
+<span id="cb4-5"><a href="data-processing.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MicrobiomeAnalysis)</span></code></pre></div>
+</div>
+<div id="importing-data" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Importing Data<a href="data-processing.html#importing-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Converting the output of dada2 into phyloseq object</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-processing.html#cb5-1" aria-hidden="true" tabindex="-1"></a>seq_tab <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(</span>
+<span id="cb5-2"><a href="data-processing.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dada2_seqtab.rds&quot;</span>,</span>
+<span id="cb5-3"><a href="data-processing.html#cb5-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>))</span>
+<span id="cb5-4"><a href="data-processing.html#cb5-4" aria-hidden="true" tabindex="-1"></a>tax_tab <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(</span>
+<span id="cb5-5"><a href="data-processing.html#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dada2_taxtab.rds&quot;</span>,</span>
+<span id="cb5-6"><a href="data-processing.html#cb5-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>))</span>
+<span id="cb5-7"><a href="data-processing.html#cb5-7" aria-hidden="true" tabindex="-1"></a>sam_tab <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb5-8"><a href="data-processing.html#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;dada2_samdata.txt&quot;</span>,</span>
+<span id="cb5-9"><a href="data-processing.html#cb5-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>),</span>
+<span id="cb5-10"><a href="data-processing.html#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb5-11"><a href="data-processing.html#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="data-processing.html#cb5-12" aria-hidden="true" tabindex="-1"></a>ps_dada2 <span class="ot">&lt;-</span> <span class="fu">import_dada2</span>(</span>
+<span id="cb5-13"><a href="data-processing.html#cb5-13" aria-hidden="true" tabindex="-1"></a>   <span class="at">seq_tab =</span> seq_tab,</span>
+<span id="cb5-14"><a href="data-processing.html#cb5-14" aria-hidden="true" tabindex="-1"></a>   <span class="at">tax_tab =</span> tax_tab,</span>
+<span id="cb5-15"><a href="data-processing.html#cb5-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">sam_tab =</span> sam_tab)</span>
+<span id="cb5-16"><a href="data-processing.html#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="data-processing.html#cb5-17" aria-hidden="true" tabindex="-1"></a>ps_dada2</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 232 taxa and 20 samples ]
+## sample_data() Sample Data:       [ 20 samples by 4 sample variables ]
+## tax_table()   Taxonomy Table:    [ 232 taxa by 6 taxonomic ranks ]
+## refseq()      DNAStringSet:      [ 232 reference sequences ]</code></pre>
+<ul>
+<li>Converting the qiime2 output of dada2 into phyloseq object</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data-processing.html#cb7-1" aria-hidden="true" tabindex="-1"></a>otuqza_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(</span>
+<span id="cb7-2"><a href="data-processing.html#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;table.qza&quot;</span>,</span>
+<span id="cb7-3"><a href="data-processing.html#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>)</span>
+<span id="cb7-4"><a href="data-processing.html#cb7-4" aria-hidden="true" tabindex="-1"></a>taxaqza_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(</span>
+<span id="cb7-5"><a href="data-processing.html#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;taxonomy.qza&quot;</span>,</span>
+<span id="cb7-6"><a href="data-processing.html#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>)</span>
+<span id="cb7-7"><a href="data-processing.html#cb7-7" aria-hidden="true" tabindex="-1"></a>sample_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(</span>
+<span id="cb7-8"><a href="data-processing.html#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample-metadata.tsv&quot;</span>,</span>
+<span id="cb7-9"><a href="data-processing.html#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>)</span>
+<span id="cb7-10"><a href="data-processing.html#cb7-10" aria-hidden="true" tabindex="-1"></a>treeqza_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(</span>
+<span id="cb7-11"><a href="data-processing.html#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;tree.qza&quot;</span>,</span>
+<span id="cb7-12"><a href="data-processing.html#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;MicrobiomeAnalysis&quot;</span>)</span>
+<span id="cb7-13"><a href="data-processing.html#cb7-13" aria-hidden="true" tabindex="-1"></a>ps_qiime2 <span class="ot">&lt;-</span> <span class="fu">import_qiime2</span>(</span>
+<span id="cb7-14"><a href="data-processing.html#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">otu_qza =</span> otuqza_file, <span class="at">taxa_qza =</span> taxaqza_file,</span>
+<span id="cb7-15"><a href="data-processing.html#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">sam_tab =</span> sample_file, <span class="at">tree_qza =</span> treeqza_file</span>
+<span id="cb7-16"><a href="data-processing.html#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-17"><a href="data-processing.html#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="data-processing.html#cb7-18" aria-hidden="true" tabindex="-1"></a>ps_qiime2</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 770 taxa and 34 samples ]
+## sample_data() Sample Data:       [ 34 samples by 9 sample variables ]
+## tax_table()   Taxonomy Table:    [ 770 taxa by 7 taxonomic ranks ]
+## phy_tree()    Phylogenetic Tree: [ 770 tips and 768 internal nodes ]</code></pre>
+<ul>
+<li>Convertings inputs into SummarizedExperiment object</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data-processing.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_protein&quot;</span>)</span>
+<span id="cb9-2"><a href="data-processing.html#cb9-2" aria-hidden="true" tabindex="-1"></a>assay <span class="ot">&lt;-</span> SummarizedExperiment<span class="sc">::</span><span class="fu">assay</span>(Zeybel_2022_protein) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="data-processing.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb9-4"><a href="data-processing.html#cb9-4" aria-hidden="true" tabindex="-1"></a>rowData <span class="ot">&lt;-</span> SummarizedExperiment<span class="sc">::</span><span class="fu">rowData</span>(Zeybel_2022_protein) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="data-processing.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb9-6"><a href="data-processing.html#cb9-6" aria-hidden="true" tabindex="-1"></a>colData <span class="ot">&lt;-</span> SummarizedExperiment<span class="sc">::</span><span class="fu">colData</span>(Zeybel_2022_protein) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="data-processing.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
+<span id="cb9-8"><a href="data-processing.html#cb9-8" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">lab=</span><span class="st">&quot;hua&quot;</span>, <span class="at">type=</span><span class="st">&quot;protein&quot;</span>)</span>
+<span id="cb9-9"><a href="data-processing.html#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="data-processing.html#cb9-10" aria-hidden="true" tabindex="-1"></a>assay <span class="ot">&lt;-</span> assay[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb9-11"><a href="data-processing.html#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="data-processing.html#cb9-12" aria-hidden="true" tabindex="-1"></a>se_protein <span class="ot">&lt;-</span> <span class="fu">import_SE</span>(</span>
+<span id="cb9-13"><a href="data-processing.html#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">object =</span> assay,</span>
+<span id="cb9-14"><a href="data-processing.html#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">rowdata =</span> rowData,</span>
+<span id="cb9-15"><a href="data-processing.html#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">coldata =</span> colData,</span>
+<span id="cb9-16"><a href="data-processing.html#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata =</span> metadata)</span>
+<span id="cb9-17"><a href="data-processing.html#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="data-processing.html#cb9-18" aria-hidden="true" tabindex="-1"></a>se_protein</span></code></pre></div>
+<pre><code>## class: SummarizedExperiment 
+## dim: 10 10 
+## metadata(2): lab type
+## assays(1): &#39;&#39;
+## rownames(10): IL8 VEGFA ... uPA IL6
+## rowData names(3): ProteinID LOD prop
+## colnames(10): P101001 P101003 ... P101013 P101016
+## colData names(47): PatientID Gender ... Right_leg_fat_free_mass Right_leg_total_body_water</code></pre>
+</div>
+<div id="extracting-specific-levels" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Extracting specific levels<a href="data-processing.html#extracting-specific-levels" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Extracting “Genus” levels phyloseq object</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="data-processing.html#cb11-1" aria-hidden="true" tabindex="-1"></a>ps_genus <span class="ot">&lt;-</span> <span class="fu">aggregate_taxa</span>(<span class="at">x =</span> ps_dada2, </span>
+<span id="cb11-2"><a href="data-processing.html#cb11-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">level =</span> <span class="st">&quot;Genus&quot;</span>)</span>
+<span id="cb11-3"><a href="data-processing.html#cb11-3" aria-hidden="true" tabindex="-1"></a>ps_genus</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 66 taxa and 20 samples ]
+## sample_data() Sample Data:       [ 20 samples by 4 sample variables ]
+## tax_table()   Taxonomy Table:    [ 66 taxa by 7 taxonomic ranks ]</code></pre>
+</div>
+<div id="summarizing-specific-levels" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Summarizing specific levels<a href="data-processing.html#summarizing-specific-levels" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Phyloseq object contains from Kingdom to the the specific taxonomic levels (Phylum)</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="data-processing.html#cb13-1" aria-hidden="true" tabindex="-1"></a>ps_summarize_genus <span class="ot">&lt;-</span> <span class="fu">summarize_taxa</span>(</span>
+<span id="cb13-2"><a href="data-processing.html#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ps =</span> ps_dada2, </span>
+<span id="cb13-3"><a href="data-processing.html#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">level =</span> <span class="st">&quot;Genus&quot;</span>)</span>
+<span id="cb13-4"><a href="data-processing.html#cb13-4" aria-hidden="true" tabindex="-1"></a>ps_summarize_genus</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 66 taxa and 20 samples ]
+## sample_data() Sample Data:       [ 20 samples by 4 sample variables ]
+## tax_table()   Taxonomy Table:    [ 66 taxa by 1 taxonomic ranks ]</code></pre>
+</div>
+<div id="data-transformation" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Data Transformation<a href="data-processing.html#data-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>5 methods to transform individual values (<strong>by individual value</strong>).</p>
+<ul>
+<li><p>“log10”, the transformation is log10(object), and if the data contains zeros the transformation is log10(1 + object).</p></li>
+<li><p>“log10p”, the transformation is log10(1 + object).</p></li>
+<li><p>“SquareRoot”, the transformation is Square Root.</p></li>
+<li><p>“CubicRoot”, the transformation is Cubic Root.</p></li>
+<li><p>“logit”, the transformation is Zero-inflated Logit Transformation (Does not work well for microbiome data).</p></li>
+</ul>
+<p>Here is for <code>phyloseq-class</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data-processing.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_gut&quot;</span>)</span>
+<span id="cb15-2"><a href="data-processing.html#cb15-2" aria-hidden="true" tabindex="-1"></a>ps_transform <span class="ot">&lt;-</span> <span class="fu">transform_abundances</span>(</span>
+<span id="cb15-3"><a href="data-processing.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> Zeybel_2022_gut,</span>
+<span id="cb15-4"><a href="data-processing.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">level =</span> <span class="st">&quot;Phylum&quot;</span>,</span>
+<span id="cb15-5"><a href="data-processing.html#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">transform =</span> <span class="st">&quot;log10p&quot;</span>)</span>
+<span id="cb15-6"><a href="data-processing.html#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="data-processing.html#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ps_transform<span class="sc">@</span>otu_table<span class="sc">@</span>.Data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##                     P101003    P101007    P101010    P101012    P101018
+## p__Actinobacteria -1.651096 -2.0986943 -2.5452009 -1.6773074 -1.8931057
+## p__Bacteroidetes  -0.330115 -0.1437857 -0.3379679 -0.1574846 -0.1295813
+## p__Chloroflexi     0.000000  0.0000000  0.0000000  0.0000000  0.0000000</code></pre>
+<ul>
+<li>Here is for <code>SummarizedExperiment-class</code>.</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data-processing.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_protein&quot;</span>)</span>
+<span id="cb17-2"><a href="data-processing.html#cb17-2" aria-hidden="true" tabindex="-1"></a>se_transform <span class="ot">&lt;-</span> <span class="fu">transform_abundances</span>(</span>
+<span id="cb17-3"><a href="data-processing.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> Zeybel_2022_protein,</span>
+<span id="cb17-4"><a href="data-processing.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">transform =</span> <span class="st">&quot;SquareRoot&quot;</span>)</span>
+<span id="cb17-5"><a href="data-processing.html#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="data-processing.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(se_transform)[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##        P101001  P101003  P101004  P101007  P101009
+## IL8   2.246691 2.063092 2.170020 2.400327 2.168238
+## VEGFA 3.344589 3.302819 3.246115 3.321395 3.258289
+## CD8A  3.398494 3.185073 3.132900 3.262700 3.075131</code></pre>
+</div>
+<div id="data-imputation" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Data Imputation<a href="data-processing.html#data-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>11 methods to impute missing value (NAs or Zeros)</p>
+<ul>
+<li><p>“LOD”: specific Limit Of Detection which provides by user.</p></li>
+<li><p>“half_min”: half minimal values across samples except zero.</p></li>
+<li><p>“median”: median values across samples except zero.</p></li>
+<li><p>“mean”: mean values across samples except zero.</p></li>
+<li><p>“min”: minimal values across samples except zero.</p></li>
+<li><p>“knn”: k-nearest neighbors samples.</p></li>
+<li><p>“rf”: nonparametric missing value imputation using Random Forest.</p></li>
+<li><p>“global_mean”: a normal distribution with a mean that is down-shifted from the sample mean and a standard deviation that is a fraction of the standard deviation of the sample distribution.</p></li>
+<li><p>“svd”: missing values imputation based Singular value decomposition.</p></li>
+<li><p>“QRILC”: missing values imputation based quantile regression. (default: “none”).</p></li>
+</ul>
+<p><code>phyloseq-class</code> as inputs</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="data-processing.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_gut&quot;</span>)</span>
+<span id="cb19-2"><a href="data-processing.html#cb19-2" aria-hidden="true" tabindex="-1"></a>ps_impute <span class="ot">&lt;-</span> <span class="fu">impute_abundance</span>(</span>
+<span id="cb19-3"><a href="data-processing.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> Zeybel_2022_gut,</span>
+<span id="cb19-4"><a href="data-processing.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">level =</span> <span class="st">&quot;Phylum&quot;</span>,</span>
+<span id="cb19-5"><a href="data-processing.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">&quot;LiverFatClass&quot;</span>,</span>
+<span id="cb19-6"><a href="data-processing.html#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ZerosAsNA =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-7"><a href="data-processing.html#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">RemoveNA =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-8"><a href="data-processing.html#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">20</span>,</span>
+<span id="cb19-9"><a href="data-processing.html#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>)</span>
+<span id="cb19-10"><a href="data-processing.html#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="data-processing.html#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ps_impute<span class="sc">@</span>otu_table<span class="sc">@</span>.Data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##                     P101003   P101007   P101010   P101012   P101018
+## p__Actinobacteria 0.0223308 0.0079672 0.0028497 0.0210229 0.0127907
+## p__Bacteroidetes  0.4676113 0.7181486 0.4592320 0.6958497 0.7420252
+## p__Firmicutes     0.4818712 0.2715033 0.4577191 0.2712132 0.1701021</code></pre>
+<ul>
+<li>Inputs is from <code>SummarizedExperiment-class</code>.</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="data-processing.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_protein&quot;</span>)</span>
+<span id="cb21-2"><a href="data-processing.html#cb21-2" aria-hidden="true" tabindex="-1"></a>se_impute <span class="ot">&lt;-</span> <span class="fu">impute_abundance</span>(</span>
+<span id="cb21-3"><a href="data-processing.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> Zeybel_2022_protein,</span>
+<span id="cb21-4"><a href="data-processing.html#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">&quot;LiverFatClass&quot;</span>,</span>
+<span id="cb21-5"><a href="data-processing.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ZerosAsNA =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-6"><a href="data-processing.html#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">RemoveNA =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-7"><a href="data-processing.html#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">20</span>,</span>
+<span id="cb21-8"><a href="data-processing.html#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>)</span>
+<span id="cb21-9"><a href="data-processing.html#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="data-processing.html#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(se_impute)[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##         P101001  P101003  P101004  P101007  P101009
+## IL8    5.047325  4.25600  4.70867  5.76131  4.70094
+## VEGFA 11.186140 10.90848 10.53712 11.03153 10.61631
+## CD8A  11.549635 10.14454  9.81491 10.64507  9.45627</code></pre>
+</div>
+<div id="data-normalization" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Data Normalization<a href="data-processing.html#data-normalization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Normalizing the OTU_table in phyloseq-class object sample by sample to reduce the effects of systematic differences such as library size (<strong>by sample</strong>).</p>
+<ul>
+<li><p>“rarefy”: random subsampling counts to the smallest library size in the data set.</p></li>
+<li><p>“TSS”: total sum scaling, also referred to as “relative abundance”, the abundances were normalized by dividing the corresponding sample library size.</p></li>
+<li><p>“TMM”: trimmed mean of m-values. First, a sample is chosen as reference. The scaling factor is then derived using a weighted trimmed mean over the differences of the log-transformed gene-count fold-change between the sample and the reference.</p></li>
+<li><p>“RLE”, relative log expression, RLE uses a pseudo-reference calculated using the geometric mean of the gene-specific abundances over all samples. The scaling factors are then calculated as the median of the gene counts ratios between the samples and the reference.</p></li>
+<li><p>“CSS”: cumulative sum scaling, calculates scaling factors as the cumulative sum of gene abundances up to a data-derived threshold.</p></li>
+<li><p>“CLR”: centered log-ratio normalization.</p></li>
+<li><p>“CPM”: pre-sample normalization of the sum of the values to 1e+06.</p></li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="data-processing.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;caporaso&quot;</span>)</span>
+<span id="cb23-2"><a href="data-processing.html#cb23-2" aria-hidden="true" tabindex="-1"></a>ps_norm <span class="ot">&lt;-</span> <span class="fu">normalize</span>(</span>
+<span id="cb23-3"><a href="data-processing.html#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">object =</span> caporaso,</span>
+<span id="cb23-4"><a href="data-processing.html#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;TSS&quot;</span>)</span>
+<span id="cb23-5"><a href="data-processing.html#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="data-processing.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ps_norm<span class="sc">@</span>otu_table<span class="sc">@</span>.Data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##                             L1S140       L1S208 L1S8 L1S281 L3S242
+## New.CleanUp.ReferenceOTU647      0 0.0000000000    0      0      0
+## 14030                            0 0.0000000000    0      0      0
+## New.CleanUp.ReferenceOTU858      0 0.0001013993    0      0      0</code></pre>
+</div>
+<div id="data-scaling" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Data Scaling<a href="data-processing.html#data-scaling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Data scaling adjusts each variable/feature by a scaling factor computed based on the dispersion of the variable (<strong>by variable/feature</strong>).</p>
+<ul>
+<li><p>“mean_center”: values minus mean statistic.</p></li>
+<li><p>“zscore”: mean-centered and divided by the standard deviation of each variable.</p></li>
+<li><p>“pareto”: mean-centered and divided by the square root of the standard deviation of each variable.</p></li>
+<li><p>“range”: mean-centered and divided by the range of each variable. (default: “none”).</p></li>
+</ul>
+<p><code>phyloseq-class</code> as inputs</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="data-processing.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;enterotypes_arumugam&quot;</span>)</span>
+<span id="cb25-2"><a href="data-processing.html#cb25-2" aria-hidden="true" tabindex="-1"></a>ps_scale <span class="ot">&lt;-</span> <span class="fu">scale_variables</span>(</span>
+<span id="cb25-3"><a href="data-processing.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> enterotypes_arumugam,</span>
+<span id="cb25-4"><a href="data-processing.html#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">level =</span> <span class="st">&quot;Phylum&quot;</span>,</span>
+<span id="cb25-5"><a href="data-processing.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;range&quot;</span>)</span>
+<span id="cb25-6"><a href="data-processing.html#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="data-processing.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ps_scale<span class="sc">@</span>otu_table<span class="sc">@</span>.Data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##                    AM-AD-1     AM-AD-2  AM-F10-T1   AM-F10-T2    DA-AD-1
+## Acidobacteria   0.00000000  0.00000000  0.0000000 0.000000000  0.0000000
+## Actinobacteria  0.03379937 -0.05187261  0.0180014 0.882710081 -0.1132282
+## Bacteroidetes  -0.21758868 -0.21769150 -0.0870175 0.004106405  0.4083952</code></pre>
+<p>Inputs is from <code>SummarizedExperiment-class</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="data-processing.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_protein&quot;</span>)</span>
+<span id="cb27-2"><a href="data-processing.html#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="data-processing.html#cb27-3" aria-hidden="true" tabindex="-1"></a>se_impute <span class="ot">&lt;-</span> <span class="fu">impute_abundance</span>(</span>
+<span id="cb27-4"><a href="data-processing.html#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> Zeybel_2022_protein,</span>
+<span id="cb27-5"><a href="data-processing.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">&quot;LiverFatClass&quot;</span>,</span>
+<span id="cb27-6"><a href="data-processing.html#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ZerosAsNA =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb27-7"><a href="data-processing.html#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">RemoveNA =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb27-8"><a href="data-processing.html#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">20</span>,</span>
+<span id="cb27-9"><a href="data-processing.html#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>)</span>
+<span id="cb27-10"><a href="data-processing.html#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="data-processing.html#cb27-11" aria-hidden="true" tabindex="-1"></a>se_scale <span class="ot">&lt;-</span> <span class="fu">scale_variables</span>(</span>
+<span id="cb27-12"><a href="data-processing.html#cb27-12" aria-hidden="true" tabindex="-1"></a>  se_impute,</span>
+<span id="cb27-13"><a href="data-processing.html#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;zscore&quot;</span>)</span>
+<span id="cb27-14"><a href="data-processing.html#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="data-processing.html#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(se_scale)[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##          P101001    P101003    P101004    P101007    P101009
+## IL8   -0.6666419 -0.7058454 -0.5725945 -0.4119527 -0.5532427
+## VEGFA  1.3465093  1.5156366  1.3859023  1.2384224  1.4615621
+## CD8A   1.4657131  1.2605319  1.1432227  1.1174021  1.0664467</code></pre>
+</div>
+<div id="data-trimming" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Data Trimming<a href="data-processing.html#data-trimming" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Trimming samples or features whose prevalence is less than threshold</p>
+<ul>
+<li><p>“both”, prevalence of features and samples more than cutoff.</p></li>
+<li><p>“feature”, prevalence of features more than cutoff.</p></li>
+<li><p>“feature_group”, prevalence of features more than cutoff by groups.</p></li>
+<li><p>“sample”, prevalence of samples more than cutoff.</p></li>
+</ul>
+<p><code>phyloseq-class</code> as inputs</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-processing.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_gut&quot;</span>)</span>
+<span id="cb29-2"><a href="data-processing.html#cb29-2" aria-hidden="true" tabindex="-1"></a>ps_trim <span class="ot">&lt;-</span> <span class="fu">trim_prevalence</span>(</span>
+<span id="cb29-3"><a href="data-processing.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  Zeybel_2022_gut,</span>
+<span id="cb29-4"><a href="data-processing.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">&quot;LiverFatClass&quot;</span>,</span>
+<span id="cb29-5"><a href="data-processing.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">level =</span> <span class="st">&quot;Phylum&quot;</span>,</span>
+<span id="cb29-6"><a href="data-processing.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="fl">0.1</span>,</span>
+<span id="cb29-7"><a href="data-processing.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trim =</span> <span class="st">&quot;feature_group&quot;</span>)</span>
+<span id="cb29-8"><a href="data-processing.html#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="data-processing.html#cb29-9" aria-hidden="true" tabindex="-1"></a>ps_trim</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 5 taxa and 42 samples ]
+## sample_data() Sample Data:       [ 42 samples by 46 sample variables ]
+## tax_table()   Taxonomy Table:    [ 5 taxa by 3 taxonomic ranks ]</code></pre>
+<p>Inputs is from <code>SummarizedExperiment-class</code>.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-processing.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_protein&quot;</span>)</span>
+<span id="cb31-2"><a href="data-processing.html#cb31-2" aria-hidden="true" tabindex="-1"></a>se_trim <span class="ot">&lt;-</span> <span class="fu">trim_prevalence</span>(</span>
+<span id="cb31-3"><a href="data-processing.html#cb31-3" aria-hidden="true" tabindex="-1"></a>  Zeybel_2022_protein,</span>
+<span id="cb31-4"><a href="data-processing.html#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="fl">0.99</span>,</span>
+<span id="cb31-5"><a href="data-processing.html#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trim =</span> <span class="st">&quot;both&quot;</span>)</span>
+<span id="cb31-6"><a href="data-processing.html#cb31-6" aria-hidden="true" tabindex="-1"></a>se_trim</span></code></pre></div>
+<pre><code>## class: SummarizedExperiment 
+## dim: 66 54 
+## metadata(0):
+## assays(1): &#39;&#39;
+## rownames(66): IL8 VEGFA ... TNFB CSF_1
+## rowData names(3): ProteinID LOD prop
+## colnames(54): P101001 P101003 ... P101095 P101096
+## colData names(47): PatientID Gender ... Right_leg_fat_free_mass Right_leg_total_body_water</code></pre>
+</div>
+<div id="data-filtering" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Data Filtering<a href="data-processing.html#data-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Filtering feature who is low relative abundance or unclassified (Ref: <span class="citation">(<a href="#ref-thingholm2019obese" role="doc-biblioref">Thingholm et al. 2019</a>)</span>)</p>
+<ul>
+<li><p>Feature is more than Mean relative abundance across all samples;</p></li>
+<li><p>Feature is more than Minimum relative abundance at least one sample.</p></li>
+</ul>
+<p><code>phyloseq-class</code> as inputs</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="data-processing.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_gut&quot;</span>)</span>
+<span id="cb33-2"><a href="data-processing.html#cb33-2" aria-hidden="true" tabindex="-1"></a>Zeybel_2022_gut_counts <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">transform_sample_counts</span>(</span>
+<span id="cb33-3"><a href="data-processing.html#cb33-3" aria-hidden="true" tabindex="-1"></a>Zeybel_2022_gut, <span class="cf">function</span>(x) {<span class="fu">round</span>(x <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>)})</span>
+<span id="cb33-4"><a href="data-processing.html#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="data-processing.html#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># absolute abundance</span></span>
+<span id="cb33-6"><a href="data-processing.html#cb33-6" aria-hidden="true" tabindex="-1"></a>ps_filter_absolute <span class="ot">&lt;-</span> <span class="fu">filter_abundance</span>(</span>
+<span id="cb33-7"><a href="data-processing.html#cb33-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">object =</span> Zeybel_2022_gut_counts,</span>
+<span id="cb33-8"><a href="data-processing.html#cb33-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">level =</span> <span class="st">&quot;Genus&quot;</span>,</span>
+<span id="cb33-9"><a href="data-processing.html#cb33-9" aria-hidden="true" tabindex="-1"></a>   <span class="at">cutoff_mean =</span> <span class="dv">100</span>,</span>
+<span id="cb33-10"><a href="data-processing.html#cb33-10" aria-hidden="true" tabindex="-1"></a>   <span class="at">cutoff_one =</span> <span class="dv">1000</span>,</span>
+<span id="cb33-11"><a href="data-processing.html#cb33-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">unclass =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-12"><a href="data-processing.html#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="data-processing.html#cb33-13" aria-hidden="true" tabindex="-1"></a>ps_filter_absolute</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 94 taxa and 42 samples ]
+## sample_data() Sample Data:       [ 42 samples by 46 sample variables ]
+## tax_table()   Taxonomy Table:    [ 94 taxa by 7 taxonomic ranks ]</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="data-processing.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># relative abundance</span></span>
+<span id="cb35-2"><a href="data-processing.html#cb35-2" aria-hidden="true" tabindex="-1"></a>ps_filter_relative <span class="ot">&lt;-</span> <span class="fu">filter_abundance</span>(</span>
+<span id="cb35-3"><a href="data-processing.html#cb35-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">object =</span> Zeybel_2022_gut,</span>
+<span id="cb35-4"><a href="data-processing.html#cb35-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">level =</span> <span class="st">&quot;Genus&quot;</span>,</span>
+<span id="cb35-5"><a href="data-processing.html#cb35-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">cutoff_mean =</span> <span class="fl">1e-04</span>,</span>
+<span id="cb35-6"><a href="data-processing.html#cb35-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">cutoff_one =</span> <span class="fl">1e-03</span>,</span>
+<span id="cb35-7"><a href="data-processing.html#cb35-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">unclass =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-8"><a href="data-processing.html#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="data-processing.html#cb35-9" aria-hidden="true" tabindex="-1"></a>ps_filter_relative</span></code></pre></div>
+<pre><code>## phyloseq-class experiment-level object
+## otu_table()   OTU Table:         [ 67 taxa and 42 samples ]
+## sample_data() Sample Data:       [ 42 samples by 46 sample variables ]
+## tax_table()   Taxonomy Table:    [ 67 taxa by 7 taxonomic ranks ]</code></pre>
+<p>Inputs is from <code>SummarizedExperiment-class</code>.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="data-processing.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Zeybel_2022_protein&quot;</span>)</span>
+<span id="cb37-2"><a href="data-processing.html#cb37-2" aria-hidden="true" tabindex="-1"></a>se_filter <span class="ot">&lt;-</span> <span class="fu">filter_abundance</span>(</span>
+<span id="cb37-3"><a href="data-processing.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> Zeybel_2022_protein,</span>
+<span id="cb37-4"><a href="data-processing.html#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff_mean =</span> <span class="dv">5</span>,</span>
+<span id="cb37-5"><a href="data-processing.html#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff_one =</span> <span class="dv">8</span>)</span>
+<span id="cb37-6"><a href="data-processing.html#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="data-processing.html#cb37-7" aria-hidden="true" tabindex="-1"></a>se_filter</span></code></pre></div>
+<pre><code>## class: SummarizedExperiment 
+## dim: 40 54 
+## metadata(0):
+## assays(1): &#39;&#39;
+## rownames(40): 4E_BP1 AXIN1 ... uPA VEGFA
+## rowData names(3): ProteinID LOD prop
+## colnames(54): P101001 P101003 ... P101095 P101096
+## colData names(47): PatientID Gender ... Right_leg_fat_free_mass Right_leg_total_body_water</code></pre>
+</div>
+<div id="systematic-information" class="section level2 hasAnchor" number="3.11">
+<h2><span class="header-section-number">3.11</span> Systematic Information<a href="data-processing.html#systematic-information" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="data-processing.html#cb39-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code></pre></div>
+<pre><code>## ─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+##  setting  value
+##  version  R version 4.1.2 (2021-11-01)
+##  os       macOS Monterey 12.2.1
+##  system   x86_64, darwin17.0
+##  ui       RStudio
+##  language (EN)
+##  collate  en_US.UTF-8
+##  ctype    en_US.UTF-8
+##  tz       Asia/Shanghai
+##  date     2023-01-12
+##  rstudio  2022.07.2+576 Spotted Wakerobin (desktop)
+##  pandoc   2.19.2 @ /Applications/RStudio.app/Contents/MacOS/quarto/bin/tools/ (via rmarkdown)
+## 
+## ─ Packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+##  package              * version  date (UTC) lib source
+##  ade4                   1.7-18   2021-09-16 [1] CRAN (R 4.1.0)
+##  ANCOMBC                1.4.0    2021-10-26 [1] Bioconductor
+##  annotate               1.72.0   2021-10-26 [1] Bioconductor
+##  AnnotationDbi          1.56.2   2021-11-09 [1] Bioconductor
+##  ape                    5.6-2    2022-03-02 [1] CRAN (R 4.1.2)
+##  assertthat             0.2.1    2019-03-21 [1] CRAN (R 4.1.0)
+##  Biobase              * 2.54.0   2021-10-26 [1] Bioconductor
+##  BiocGenerics         * 0.40.0   2021-10-26 [1] Bioconductor
+##  BiocParallel           1.28.3   2021-12-09 [1] Bioconductor
+##  biomformat             1.22.0   2021-10-26 [1] Bioconductor
+##  Biostrings             2.62.0   2021-10-26 [1] Bioconductor
+##  bit                    4.0.4    2020-08-04 [1] CRAN (R 4.1.0)
+##  bit64                  4.0.5    2020-08-30 [1] CRAN (R 4.1.0)
+##  bitops                 1.0-7    2021-04-24 [1] CRAN (R 4.1.0)
+##  blob                   1.2.2    2021-07-23 [1] CRAN (R 4.1.0)
+##  bookdown               0.29     2022-09-12 [1] CRAN (R 4.1.2)
+##  brio                   1.1.3    2021-11-30 [1] CRAN (R 4.1.0)
+##  bslib                  0.4.0    2022-07-16 [1] CRAN (R 4.1.2)
+##  cachem                 1.0.6    2021-08-19 [1] CRAN (R 4.1.0)
+##  callr                  3.7.0    2021-04-20 [1] CRAN (R 4.1.0)
+##  caTools                1.18.2   2021-03-28 [1] CRAN (R 4.1.0)
+##  cli                    3.4.1    2022-09-23 [1] CRAN (R 4.1.2)
+##  cluster                2.1.2    2021-04-17 [1] CRAN (R 4.1.2)
+##  codetools              0.2-18   2020-11-04 [1] CRAN (R 4.1.2)
+##  colorspace             2.0-3    2022-02-21 [1] CRAN (R 4.1.2)
+##  crayon                 1.5.0    2022-02-14 [1] CRAN (R 4.1.2)
+##  data.table             1.14.6   2022-11-16 [1] CRAN (R 4.1.2)
+##  DBI                    1.1.2    2021-12-20 [1] CRAN (R 4.1.0)
+##  DelayedArray           0.20.0   2021-10-26 [1] Bioconductor
+##  desc                   1.4.1    2022-03-06 [1] CRAN (R 4.1.2)
+##  DESeq2                 1.34.0   2021-10-26 [1] Bioconductor
+##  devtools               2.4.3    2021-11-30 [1] CRAN (R 4.1.0)
+##  digest                 0.6.30   2022-10-18 [1] CRAN (R 4.1.2)
+##  dplyr                * 1.0.10   2022-09-01 [1] CRAN (R 4.1.2)
+##  ellipsis               0.3.2    2021-04-29 [1] CRAN (R 4.1.0)
+##  evaluate               0.17     2022-10-07 [1] CRAN (R 4.1.2)
+##  fansi                  1.0.2    2022-01-14 [1] CRAN (R 4.1.2)
+##  fastmap                1.1.0    2021-01-25 [1] CRAN (R 4.1.0)
+##  foreach                1.5.2    2022-02-02 [1] CRAN (R 4.1.2)
+##  fs                     1.5.2    2021-12-08 [1] CRAN (R 4.1.0)
+##  genefilter             1.76.0   2021-10-26 [1] Bioconductor
+##  geneplotter            1.72.0   2021-10-26 [1] Bioconductor
+##  generics               0.1.2    2022-01-31 [1] CRAN (R 4.1.2)
+##  GenomeInfoDb         * 1.30.1   2022-01-30 [1] Bioconductor
+##  GenomeInfoDbData       1.2.7    2022-03-09 [1] Bioconductor
+##  GenomicRanges        * 1.46.1   2021-11-18 [1] Bioconductor
+##  ggplot2                3.4.0    2022-11-04 [1] CRAN (R 4.1.2)
+##  glmnet                 4.1-3    2021-11-02 [1] CRAN (R 4.1.0)
+##  glue                   1.6.2    2022-02-24 [1] CRAN (R 4.1.2)
+##  gplots                 3.1.1    2020-11-28 [1] CRAN (R 4.1.0)
+##  gtable                 0.3.0    2019-03-25 [1] CRAN (R 4.1.0)
+##  gtools                 3.9.2    2021-06-06 [1] CRAN (R 4.1.0)
+##  highr                  0.9      2021-04-16 [1] CRAN (R 4.1.0)
+##  htmltools              0.5.3    2022-07-18 [1] CRAN (R 4.1.2)
+##  httr                   1.4.2    2020-07-20 [1] CRAN (R 4.1.0)
+##  igraph                 1.2.11   2022-01-04 [1] CRAN (R 4.1.2)
+##  impute                 1.68.0   2021-10-26 [1] Bioconductor
+##  IRanges              * 2.28.0   2021-10-26 [1] Bioconductor
+##  iterators              1.0.14   2022-02-05 [1] CRAN (R 4.1.2)
+##  jquerylib              0.1.4    2021-04-26 [1] CRAN (R 4.1.0)
+##  jsonlite               1.8.3    2022-10-21 [1] CRAN (R 4.1.2)
+##  KEGGREST               1.34.0   2021-10-26 [1] Bioconductor
+##  KernSmooth             2.23-20  2021-05-03 [1] CRAN (R 4.1.2)
+##  knitr                  1.40     2022-08-24 [1] CRAN (R 4.1.2)
+##  lattice                0.20-45  2021-09-22 [1] CRAN (R 4.1.2)
+##  lifecycle              1.0.3    2022-10-07 [1] CRAN (R 4.1.2)
+##  limma                  3.50.1   2022-02-17 [1] Bioconductor
+##  locfit                 1.5-9.5  2022-03-03 [1] CRAN (R 4.1.2)
+##  magrittr               2.0.3    2022-03-30 [1] CRAN (R 4.1.2)
+##  MASS                   7.3-55   2022-01-13 [1] CRAN (R 4.1.2)
+##  Matrix                 1.4-0    2021-12-08 [1] CRAN (R 4.1.0)
+##  MatrixGenerics       * 1.6.0    2021-10-26 [1] Bioconductor
+##  matrixStats          * 0.61.0   2021-09-17 [1] CRAN (R 4.1.0)
+##  memoise                2.0.1    2021-11-26 [1] CRAN (R 4.1.0)
+##  metagenomeSeq          1.36.0   2021-10-26 [1] Bioconductor
+##  mgcv                   1.8-39   2022-02-24 [1] CRAN (R 4.1.2)
+##  microbiome             1.16.0   2021-10-26 [1] Bioconductor
+##  MicrobiomeAnalysis   * 1.0.3    2023-01-12 [1] Bioconductor
+##  multtest               2.50.0   2021-10-26 [1] Bioconductor
+##  munsell                0.5.0    2018-06-12 [1] CRAN (R 4.1.0)
+##  nlme                   3.1-155  2022-01-13 [1] CRAN (R 4.1.2)
+##  nloptr                 2.0.0    2022-01-26 [1] CRAN (R 4.1.2)
+##  permute                0.9-7    2022-01-27 [1] CRAN (R 4.1.2)
+##  phyloseq             * 1.38.0   2021-10-26 [1] Bioconductor
+##  pillar                 1.7.0    2022-02-01 [1] CRAN (R 4.1.2)
+##  pkgbuild               1.3.1    2021-12-20 [1] CRAN (R 4.1.0)
+##  pkgconfig              2.0.3    2019-09-22 [1] CRAN (R 4.1.0)
+##  pkgload                1.2.4    2021-11-30 [1] CRAN (R 4.1.0)
+##  plyr                   1.8.6    2020-03-03 [1] CRAN (R 4.1.0)
+##  png                    0.1-7    2013-12-03 [1] CRAN (R 4.1.0)
+##  prettyunits            1.1.1    2020-01-24 [1] CRAN (R 4.1.0)
+##  processx               3.5.2    2021-04-30 [1] CRAN (R 4.1.0)
+##  ps                     1.6.0    2021-02-28 [1] CRAN (R 4.1.0)
+##  purrr                  0.3.4    2020-04-17 [1] CRAN (R 4.1.0)
+##  R6                     2.5.1    2021-08-19 [1] CRAN (R 4.1.0)
+##  rbibutils              2.2.7    2021-12-07 [1] CRAN (R 4.1.0)
+##  RColorBrewer           1.1-2    2014-12-07 [1] CRAN (R 4.1.0)
+##  Rcpp                   1.0.9    2022-07-08 [1] CRAN (R 4.1.2)
+##  RCurl                  1.98-1.6 2022-02-08 [1] CRAN (R 4.1.2)
+##  Rdpack                 2.2      2022-03-19 [1] CRAN (R 4.1.2)
+##  remotes                2.4.2    2021-11-30 [1] CRAN (R 4.1.0)
+##  reshape2               1.4.4    2020-04-09 [1] CRAN (R 4.1.0)
+##  rhdf5                  2.38.1   2022-03-10 [1] Bioconductor
+##  rhdf5filters           1.6.0    2021-10-26 [1] Bioconductor
+##  Rhdf5lib               1.16.0   2021-10-26 [1] Bioconductor
+##  rlang                  1.0.6    2022-09-24 [1] CRAN (R 4.1.2)
+##  rmarkdown              2.17     2022-10-07 [1] CRAN (R 4.1.2)
+##  rprojroot              2.0.2    2020-11-15 [1] CRAN (R 4.1.0)
+##  RSQLite                2.2.10   2022-02-17 [1] CRAN (R 4.1.2)
+##  rstudioapi             0.13     2020-11-12 [1] CRAN (R 4.1.0)
+##  Rtsne                  0.15     2018-11-10 [1] CRAN (R 4.1.0)
+##  S4Vectors            * 0.32.3   2021-11-21 [1] Bioconductor
+##  sass                   0.4.2    2022-07-16 [1] CRAN (R 4.1.2)
+##  scales                 1.2.1    2022-08-20 [1] CRAN (R 4.1.2)
+##  sessioninfo            1.2.2    2021-12-06 [1] CRAN (R 4.1.0)
+##  shape                  1.4.6    2021-05-19 [1] CRAN (R 4.1.0)
+##  stringi                1.7.8    2022-07-11 [1] CRAN (R 4.1.2)
+##  stringr                1.4.1    2022-08-20 [1] CRAN (R 4.1.2)
+##  SummarizedExperiment * 1.24.0   2021-10-26 [1] Bioconductor
+##  survival               3.4-0    2022-08-09 [1] CRAN (R 4.1.2)
+##  testthat               3.1.2    2022-01-20 [1] CRAN (R 4.1.2)
+##  tibble               * 3.1.8    2022-07-22 [1] CRAN (R 4.1.2)
+##  tidyr                  1.2.0    2022-02-01 [1] CRAN (R 4.1.2)
+##  tidyselect             1.1.2    2022-02-21 [1] CRAN (R 4.1.2)
+##  usethis                2.1.5    2021-12-09 [1] CRAN (R 4.1.0)
+##  utf8                   1.2.2    2021-07-24 [1] CRAN (R 4.1.0)
+##  vctrs                  0.5.1    2022-11-16 [1] CRAN (R 4.1.2)
+##  vegan                  2.5-7    2020-11-28 [1] CRAN (R 4.1.0)
+##  withr                  2.5.0    2022-03-03 [1] CRAN (R 4.1.2)
+##  Wrench                 1.12.0   2021-10-26 [1] Bioconductor
+##  xfun                   0.34     2022-10-18 [1] CRAN (R 4.1.2)
+##  XML                    3.99-0.9 2022-02-24 [1] CRAN (R 4.1.2)
+##  xtable                 1.8-4    2019-04-21 [1] CRAN (R 4.1.0)
+##  XVector                0.34.0   2021-10-26 [1] Bioconductor
+##  yaml                   2.3.6    2022-10-18 [1] CRAN (R 4.1.2)
+##  zlibbioc               1.40.0   2021-10-26 [1] Bioconductor
+## 
+##  [1] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
+## 
+## ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-thingholm2019obese" class="csl-entry">
+Thingholm, Louise B, Malte C Rühlemann, Manja Koch, Brie Fuqua, Guido Laucke, Ruwen Boehm, Corinna Bang, et al. 2019. <span>“Obese Individuals with and Without Type 2 Diabetes Show Different Gut Microbial Functional Capacity and Composition.”</span> <em>Cell Host &amp; Microbe</em> 26 (2): 252–64.
+</div>
 </div>
             </section>
 

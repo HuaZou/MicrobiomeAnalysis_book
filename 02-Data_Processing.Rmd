@@ -7,10 +7,21 @@ Outline of this Chapter:
 
 + [Importing Data]
 
-  - [Result from dada2](#result-from-dada2)
-  
-  - [Result from Metaphlan](#result-from-metaphlan)
++ [Extracting specific levels]
 
++ [Summarizing specific levels]
+
++ [Data Transformation]
+
++ [Data Imputation]
+
++ [Data Normalization]
+
++ [Data Scaling]
+
++ [Data Trimming]
+
++ [Data Filtering]
 
 ## Loading Packages
 ```{r, echo=TRUE, results="hide", warning=FALSE, message=FALSE}
