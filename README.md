@@ -21,4 +21,4 @@ MicrobiomeAnalysis: A comprehensive R package for managing and analyzing microbi
 
 + Initiated Tutorial (2022-12-06).
 
-
++ Updated **Chapter [2](https://zouhua.top/MicrobiomeAnalysis_book/how-to-install-microbiomeanalysis.html)** (2023-1-10).

@@ -65,7 +65,7 @@ when using data pre-processing functions, it requires that the inputs which are 
 
 We list here the main methodological or theoretical concepts you need to know to be able to efficiently apply `MicrobiomeAnalysis`:
 
-+ **phyloseq-class, EpressionSet-class**: the former object contains otu table, sample data and taxa table etc which are usually used in metagenomic data analysis. The latter one comprises expression data and metadata of gene, metabolites etc.
++ **phyloseq-class, SummarizedExperiment-class**: the former object contains otu table, sample data and taxa table etc which are usually used in metagenomic data analysis. The latter one comprises expression data and metadata of gene, metabolites etc.
 
 
 ### Key publications
