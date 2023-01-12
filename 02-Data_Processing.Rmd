@@ -1,1 +1,366 @@
 # Data Processing
+
+Outline of this Chapter:
+
++ [Loading Packages]
+
++ [Importing Data]
+
+  - [Result from dada2](#result-from-dada2)
+  
+  - [Result from Metaphlan](#result-from-metaphlan)
+
+
+## Loading Packages
+```{r, echo=TRUE, results="hide", warning=FALSE, message=FALSE}
+library(dplyr)
+library(tibble)
+library(phyloseq)
+library(SummarizedExperiment)
+library(MicrobiomeAnalysis)
+```
+
+
+## Importing Data
+
++ Converting the output of dada2 into phyloseq object
+
+```{r}
+seq_tab <- readRDS(
+  system.file("extdata", "dada2_seqtab.rds",
+              package = "MicrobiomeAnalysis"))
+tax_tab <- readRDS(
+  system.file("extdata", "dada2_taxtab.rds",
+              package = "MicrobiomeAnalysis"))
+sam_tab <- read.table(
+  system.file("extdata", "dada2_samdata.txt",
+              package = "MicrobiomeAnalysis"),
+  sep = "\t", header = TRUE, row.names = 1)
+
+ps_dada2 <- import_dada2(
+   seq_tab = seq_tab,
+   tax_tab = tax_tab,
+   sam_tab = sam_tab)
+
+ps_dada2
+```
+
++ Converting the qiime2 output of dada2 into phyloseq object
+```{r}
+otuqza_file <- system.file(
+    "extdata", "table.qza",
+    package = "MicrobiomeAnalysis")
+taxaqza_file <- system.file(
+    "extdata", "taxonomy.qza",
+    package = "MicrobiomeAnalysis")
+sample_file <- system.file(
+    "extdata", "sample-metadata.tsv",
+    package = "MicrobiomeAnalysis")
+treeqza_file <- system.file(
+    "extdata", "tree.qza",
+    package = "MicrobiomeAnalysis")
+ps_qiime2 <- import_qiime2(
+    otu_qza = otuqza_file, taxa_qza = taxaqza_file,
+    sam_tab = sample_file, tree_qza = treeqza_file
+)
+
+ps_qiime2
+```
+
+
++ Convertings inputs into SummarizedExperiment object
+```{r}
+data("Zeybel_2022_protein")
+assay <- SummarizedExperiment::assay(Zeybel_2022_protein) %>%
+  data.frame()
+rowData <- SummarizedExperiment::rowData(Zeybel_2022_protein) %>%
+  data.frame()
+colData <- SummarizedExperiment::colData(Zeybel_2022_protein) %>%
+  data.frame()
+metadata <- list(lab="hua", type="protein")
+
+assay <- assay[1:10, 1:10]
+
+se_protein <- import_SE(
+    object = assay,
+    rowdata = rowData,
+    coldata = colData,
+    metadata = metadata)
+
+se_protein
+```
+
+
+## Extracting specific levels
+
++ Extracting "Genus" levels phyloseq object 
+```{r}
+ps_genus <- aggregate_taxa(x = ps_dada2, 
+                           level = "Genus")
+ps_genus
+```
+
+
+## Summarizing specific levels 
+
++ Phyloseq object contains from Kingdom to the the specific taxonomic levels (Phylum)
+```{r}
+ps_summarize_genus <- summarize_taxa(
+    ps = ps_dada2, 
+    level = "Genus")
+ps_summarize_genus
+```
+
+## Data Transformation
+
+5 methods to transform individual values (**by individual value**).
+
++ "log10", the transformation is log10(object), and if the data contains zeros the transformation is log10(1 + object).
+
++ "log10p", the transformation is log10(1 + object).
+
++ "SquareRoot", the transformation is Square Root.
+
++ "CubicRoot", the transformation is Cubic Root.
+
++ "logit", the transformation is  Zero-inflated Logit Transformation (Does not work well for microbiome data).
+
+
+Here is for `phyloseq-class`.
+```{r}
+data("Zeybel_2022_gut")
+ps_transform <- transform_abundances(
+  object = Zeybel_2022_gut,
+  level = "Phylum",
+  transform = "log10p")
+
+head(ps_transform@otu_table@.Data[, 1:5], 3)
+```
+
+
++ Here is for `SummarizedExperiment-class`.
+```{r}
+data("Zeybel_2022_protein")
+se_transform <- transform_abundances(
+  object = Zeybel_2022_protein,
+  transform = "SquareRoot")
+
+head(assay(se_transform)[, 1:5], 3)
+```
+
+
+## Data Imputation
+
+11 methods to impute missing value (NAs or Zeros)
+
++ "LOD": specific Limit Of Detection which provides by user.
+
++ "half_min": half minimal values across samples except zero.
+
++ "median": median values across samples except zero.
+
++ "mean": mean values across samples except zero.
+
++ "min": minimal values across samples except zero.
+
++ "knn": k-nearest neighbors samples.
+
++ "rf": nonparametric missing value imputation using Random Forest.
+
++ "global_mean": a normal distribution with a mean that is down-shifted from the sample mean and a standard deviation that is a fraction of the standard deviation of the sample distribution.
+
++ "svd": missing values imputation based Singular value decomposition.
+
++ "QRILC": missing values imputation based quantile regression. (default: "none").
+
+
+`phyloseq-class` as inputs
+```{r}
+data("Zeybel_2022_gut")
+ps_impute <- impute_abundance(
+  object = Zeybel_2022_gut,
+  level = "Phylum",
+  group = "LiverFatClass",
+  ZerosAsNA = TRUE,
+  RemoveNA = TRUE,
+  cutoff = 20,
+  method = "knn")
+
+head(ps_impute@otu_table@.Data[, 1:5], 3)
+```
+
++ Inputs is from `SummarizedExperiment-class`.
+```{r}
+data("Zeybel_2022_protein")
+se_impute <- impute_abundance(
+  object = Zeybel_2022_protein,
+  group = "LiverFatClass",
+  ZerosAsNA = TRUE,
+  RemoveNA = TRUE,
+  cutoff = 20,
+  method = "knn")
+
+head(assay(se_impute)[, 1:5], 3)
+```
+
+
+## Data Normalization
+
+Normalizing the OTU_table in phyloseq-class object sample by sample to reduce the effects of systematic differences such as library size (**by sample**).
+
++ "rarefy": random subsampling counts to the smallest library size in the data set.
+
++ "TSS": total sum scaling, also referred to as "relative abundance", the abundances were normalized by dividing the corresponding sample library size.
+
++ "TMM": trimmed mean of m-values. First, a sample is chosen as reference. The scaling factor is then derived using a weighted trimmed mean over the differences of the log-transformed gene-count fold-change between the sample and the reference.
+
++ "RLE", relative log expression, RLE uses a pseudo-reference calculated using the geometric mean of the gene-specific abundances over all samples. The scaling factors are then calculated as the median of the gene counts ratios between the samples and the reference.
+
++ "CSS": cumulative sum scaling, calculates scaling factors as the cumulative sum of gene abundances up to a data-derived threshold.
+
++ "CLR": centered log-ratio normalization.
+
++ "CPM": pre-sample normalization of the sum of the values to 1e+06.
+
+```{r}
+data("caporaso")
+ps_norm <- normalize(
+    object = caporaso,
+    method = "TSS")
+
+head(ps_norm@otu_table@.Data[, 1:5], 3)
+```
+
+
+
+## Data Scaling
+
+Data scaling adjusts each variable/feature by a scaling factor computed based on the dispersion of the variable (**by variable/feature**).
+
++ "mean_center": values minus mean statistic.
+
++ "zscore": mean-centered and divided by the standard deviation of each variable.
+
++ "pareto": mean-centered and divided by the square root of the standard deviation of each variable.
+
++ "range": mean-centered and divided by the range of each variable. (default: "none").
+
+
+`phyloseq-class` as inputs
+```{r}
+data("enterotypes_arumugam")
+ps_scale <- scale_variables(
+  object = enterotypes_arumugam,
+  level = "Phylum",
+  method = "range")
+
+head(ps_scale@otu_table@.Data[, 1:5], 3)
+```
+
+Inputs is from `SummarizedExperiment-class`.
+```{r}
+data("Zeybel_2022_protein")
+
+se_impute <- impute_abundance(
+  object = Zeybel_2022_protein,
+  group = "LiverFatClass",
+  ZerosAsNA = TRUE,
+  RemoveNA = TRUE,
+  cutoff = 20,
+  method = "knn")
+
+se_scale <- scale_variables(
+  se_impute,
+  method = "zscore")
+
+head(assay(se_scale)[, 1:5], 3)
+```
+
+## Data Trimming
+
+Trimming samples or features whose prevalence is less than threshold
+
++ "both", prevalence of features and samples more than cutoff.
+
++ "feature", prevalence of features more than cutoff.
+
++ "feature_group", prevalence of features more than cutoff by groups.
+
++ "sample", prevalence of samples more than cutoff.
+
+`phyloseq-class` as inputs
+```{r}
+data("Zeybel_2022_gut")
+ps_trim <- trim_prevalence(
+  Zeybel_2022_gut,
+  group = "LiverFatClass",
+  level = "Phylum",
+  cutoff = 0.1,
+  trim = "feature_group")
+
+ps_trim
+```
+
+Inputs is from `SummarizedExperiment-class`.
+```{r}
+data("Zeybel_2022_protein")
+se_trim <- trim_prevalence(
+  Zeybel_2022_protein,
+  cutoff = 0.99,
+  trim = "both")
+se_trim
+```
+
+
+## Data Filtering
+
+Filtering feature who is low relative abundance or unclassified (Ref: [@thingholm2019obese])
+
++ Feature is more than Mean relative abundance across all samples;
+
++ Feature is more than Minimum relative abundance at least one sample.
+
+
+`phyloseq-class` as inputs
+```{r}
+data("Zeybel_2022_gut")
+Zeybel_2022_gut_counts <- phyloseq::transform_sample_counts(
+Zeybel_2022_gut, function(x) {round(x * 10^7)})
+
+# absolute abundance
+ps_filter_absolute <- filter_abundance(
+   object = Zeybel_2022_gut_counts,
+   level = "Genus",
+   cutoff_mean = 100,
+   cutoff_one = 1000,
+   unclass = FALSE)
+
+ps_filter_absolute
+
+# relative abundance
+ps_filter_relative <- filter_abundance(
+   object = Zeybel_2022_gut,
+   level = "Genus",
+   cutoff_mean = 1e-04,
+   cutoff_one = 1e-03,
+   unclass = TRUE)
+
+ps_filter_relative
+```
+
+Inputs is from `SummarizedExperiment-class`.
+```{r}
+data("Zeybel_2022_protein")
+se_filter <- filter_abundance(
+  object = Zeybel_2022_protein,
+  cutoff_mean = 5,
+  cutoff_one = 8)
+
+se_filter
+```
+
+
+## Systematic Information
+```{r}
+devtools::session_info()
+```
