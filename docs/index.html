@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Tutorial for R MicrobiomeAnalysis package</title>
   <meta name="description" content="MicrobiomeAnalysis: A comprehensive R package for managing and analyzing microbiome data" />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Tutorial for R MicrobiomeAnalysis package" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Hua Zou" />
 
 
-<meta name="date" content="2023-01-12" />
+<meta name="date" content="2023-08-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -120,6 +120,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
 div.csl-entry {
@@ -213,7 +217,7 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Tutorial for R MicrobiomeAnalysis package</h1>
 <p class="author"><em>Hua Zou</em></p>
-<p class="date"><em>2023-01-12</em></p>
+<p class="date"><em>2023-08-16</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -265,9 +269,9 @@ Figure 1.1: Flowchat of MicrobiomeAnalysis
 <div id="key-publications" class="section level3 hasAnchor" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Key publications<a href="index.html#key-publications" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
-<li><p><strong>phyloseq object</strong>. <span class="citation">(<a href="#ref-mcmurdie2013phyloseq" role="doc-biblioref">McMurdie and Holmes 2013</a>)</span> phyloseq: an R package for reproducible interactive analysis and graphics of microbiome census data.</p></li>
-<li><p><strong>Permutational Multivariate Analysis of Variance (PERMANOVA)</strong>. <span class="citation">(<a href="#ref-anderson2014permutational" role="doc-biblioref">Anderson 2014</a>)</span> Permutational multivariate analysis of variance (PERMANOVA).</p></li>
-<li><p><strong>ALDEx2</strong>. <span class="citation">(<a href="#ref-fernandes2014unifying" role="doc-biblioref">Fernandes et al. 2014</a>)</span> Unifying the analysis of high-throughput sequencing datasets: characterizing RNA-seq, 16S rRNA gene sequencing and selective growth experiments by compositional data analysis.</p></li>
+<li><p><strong>phyloseq object</strong>. <span class="citation">(<a href="#ref-mcmurdie2013phyloseq">McMurdie and Holmes 2013</a>)</span> phyloseq: an R package for reproducible interactive analysis and graphics of microbiome census data.</p></li>
+<li><p><strong>Permutational Multivariate Analysis of Variance (PERMANOVA)</strong>. <span class="citation">(<a href="#ref-anderson2014permutational">Anderson 2014</a>)</span> Permutational multivariate analysis of variance (PERMANOVA).</p></li>
+<li><p><strong>ALDEx2</strong>. <span class="citation">(<a href="#ref-fernandes2014unifying">Fernandes et al. 2014</a>)</span> Unifying the analysis of high-throughput sequencing datasets: characterizing RNA-seq, 16S rRNA gene sequencing and selective growth experiments by compositional data analysis.</p></li>
 </ul>
 </div>
 </div>
@@ -275,7 +279,7 @@ Figure 1.1: Flowchat of MicrobiomeAnalysis
 <h2><span class="header-section-number">1.3</span> Outline of this tutorial<a href="index.html#outline-of-this-tutorial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p><strong>Chapter <a href="https://zouhua.top/MicrobiomeAnalysis_book/how-to-install-microbiomeanalysis.html">2</a></strong>: How to install <code>MicrobiomeAnalysis</code></p></li>
-<li><p><strong>Chapter <a href="https://zouhua.top/MicrobiomeAnalysis_book/data-processing.html">3</a></strong>: Data Processing</p></li>
+<li><p><strong>Chapter <a href="https://zouhua.top/MicrobiomeAnalysis_book/data-processing.html">3</a></strong>: Data PreProcessing</p></li>
 </ul>
 </div>
 <div id="citation" class="section level2 hasAnchor" number="1.4">
@@ -350,7 +354,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection",
+"collapse": "section",
 "scroll_highlight": true,
 "toc_depth": 3
 }

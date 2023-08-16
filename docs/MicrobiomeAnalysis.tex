@@ -5,16 +5,19 @@
 \documentclass[
 ]{book}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -44,13 +47,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -58,7 +61,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -67,7 +70,7 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
@@ -115,7 +118,7 @@
 \bibliographystyle{apalike}
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Tutorial for R MicrobiomeAnalysis package},
   pdfauthor={Hua Zou},
@@ -124,7 +127,7 @@
 
 \title{Tutorial for R MicrobiomeAnalysis package}
 \author{Hua Zou}
-\date{2023-01-12}
+\date{2023-08-16}
 
 \begin{document}
 \maketitle
@@ -234,7 +237,7 @@ We list here the main methodological or theoretical concepts you need to know to
 \item
   \textbf{Chapter \href{https://zouhua.top/MicrobiomeAnalysis_book/how-to-install-microbiomeanalysis.html}{2}}: How to install \texttt{MicrobiomeAnalysis}
 \item
-  \textbf{Chapter \href{https://zouhua.top/MicrobiomeAnalysis_book/data-processing.html}{3}}: Data Processing
+  \textbf{Chapter \href{https://zouhua.top/MicrobiomeAnalysis_book/data-processing.html}{3}}: Data PreProcessing
 \end{itemize}
 
 \hypertarget{citation}{%
@@ -512,13 +515,17 @@ Outline of this Chapter:
 \hypertarget{data-transformation}{%
 \section{Data Transformation}\label{data-transformation}}
 
-5 methods to transform individual values (\textbf{by individual value}).
+7 methods to transform individual values (\textbf{by individual value}).
 
 \begin{itemize}
 \item
   ``log10'', the transformation is log10(object), and if the data contains zeros the transformation is log10(1 + object).
 \item
   ``log10p'', the transformation is log10(1 + object).
+\item
+  ``log2'', the transformation is log2(object), and if the data contains zeros the transformation is log2(1 + object).
+\item
+  ``log2p'', the transformation is log2(1 + object).
 \item
   ``SquareRoot'', the transformation is Square Root.
 \item
@@ -628,7 +635,7 @@ Here is for \texttt{phyloseq-class}.
 \begin{itemize}
 \tightlist
 \item
-  Inputs is from \texttt{SummarizedExperiment-class}.
+  Inputs are from \texttt{SummarizedExperiment-class}.
 \end{itemize}
 
 \begin{Shaded}
@@ -730,7 +737,7 @@ Data scaling adjusts each variable/feature by a scaling factor computed based on
 ## Bacteroidetes  -0.21758868 -0.21769150 -0.0870175 0.004106405  0.4083952
 \end{verbatim}
 
-Inputs is from \texttt{SummarizedExperiment-class}.
+Inputs are from \texttt{SummarizedExperiment-class}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -753,10 +760,10 @@ Inputs is from \texttt{SummarizedExperiment-class}.
 \end{Shaded}
 
 \begin{verbatim}
-##          P101001    P101003    P101004    P101007    P101009
-## IL8   -0.6666419 -0.7058454 -0.5725945 -0.4119527 -0.5532427
-## VEGFA  1.3465093  1.5156366  1.3859023  1.2384224  1.4615621
-## CD8A   1.4657131  1.2605319  1.1432227  1.1174021  1.0664467
+##         P101001     P101003    P101004   P101007    P101009
+## IL8   0.1612462 -1.49334575 -0.5468520 1.6541269 -0.5630148
+## VEGFA 0.8041564  0.08413878 -0.8788582 0.4032275 -0.6735057
+## CD8A  2.8143331  0.18882517 -0.4271091 1.1240968 -1.0972504
 \end{verbatim}
 
 \hypertarget{data-trimming}{%
@@ -798,7 +805,7 @@ Trimming samples or features whose prevalence is less than threshold
 ## tax_table()   Taxonomy Table:    [ 5 taxa by 3 taxonomic ranks ]
 \end{verbatim}
 
-Inputs is from \texttt{SummarizedExperiment-class}.
+Inputs are from \texttt{SummarizedExperiment-class}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -882,7 +889,7 @@ Filtering feature who is low relative abundance or unclassified (Ref: \citep{thi
 ## tax_table()   Taxonomy Table:    [ 67 taxa by 7 taxonomic ranks ]
 \end{verbatim}
 
-Inputs is from \texttt{SummarizedExperiment-class}.
+Inputs are from \texttt{SummarizedExperiment-class}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -898,10 +905,10 @@ Inputs is from \texttt{SummarizedExperiment-class}.
 
 \begin{verbatim}
 ## class: SummarizedExperiment 
-## dim: 40 54 
+## dim: 39 54 
 ## metadata(0):
 ## assays(1): ''
-## rownames(40): 4E_BP1 AXIN1 ... uPA VEGFA
+## rownames(39): VEGFA CD8A ... STAMBP CSF_1
 ## rowData names(3): ProteinID LOD prop
 ## colnames(54): P101001 P101003 ... P101095 P101096
 ## colData names(47): PatientID Gender ... Right_leg_fat_free_mass Right_leg_total_body_water
@@ -917,9 +924,9 @@ Inputs is from \texttt{SummarizedExperiment-class}.
 \end{Shaded}
 
 \begin{verbatim}
-## - Session info ---------------------------------------------------------------------------------------------------------------
+## - Session info --------------------------------------------------------------------------------------------------------------------------------
 ##  setting  value
-##  version  R version 4.1.2 (2021-11-01)
+##  version  R version 4.1.3 (2022-03-10)
 ##  os       macOS Monterey 12.2.1
 ##  system   x86_64, darwin17.0
 ##  ui       RStudio
@@ -927,153 +934,228 @@ Inputs is from \texttt{SummarizedExperiment-class}.
 ##  collate  en_US.UTF-8
 ##  ctype    en_US.UTF-8
 ##  tz       Asia/Shanghai
-##  date     2023-01-12
-##  rstudio  2022.07.2+576 Spotted Wakerobin (desktop)
-##  pandoc   2.19.2 @ /Applications/RStudio.app/Contents/MacOS/quarto/bin/tools/ (via rmarkdown)
+##  date     2023-08-16
+##  rstudio  2023.06.1+524 Mountain Hydrangea (desktop)
+##  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 ## 
-## - Packages -------------------------------------------------------------------------------------------------------------------
-##  package              * version  date (UTC) lib source
-##  ade4                   1.7-18   2021-09-16 [1] CRAN (R 4.1.0)
-##  ANCOMBC                1.4.0    2021-10-26 [1] Bioconductor
-##  annotate               1.72.0   2021-10-26 [1] Bioconductor
-##  AnnotationDbi          1.56.2   2021-11-09 [1] Bioconductor
-##  ape                    5.6-2    2022-03-02 [1] CRAN (R 4.1.2)
-##  assertthat             0.2.1    2019-03-21 [1] CRAN (R 4.1.0)
-##  Biobase              * 2.54.0   2021-10-26 [1] Bioconductor
-##  BiocGenerics         * 0.40.0   2021-10-26 [1] Bioconductor
-##  BiocParallel           1.28.3   2021-12-09 [1] Bioconductor
-##  biomformat             1.22.0   2021-10-26 [1] Bioconductor
-##  Biostrings             2.62.0   2021-10-26 [1] Bioconductor
-##  bit                    4.0.4    2020-08-04 [1] CRAN (R 4.1.0)
-##  bit64                  4.0.5    2020-08-30 [1] CRAN (R 4.1.0)
-##  bitops                 1.0-7    2021-04-24 [1] CRAN (R 4.1.0)
-##  blob                   1.2.2    2021-07-23 [1] CRAN (R 4.1.0)
-##  bookdown               0.29     2022-09-12 [1] CRAN (R 4.1.2)
-##  brio                   1.1.3    2021-11-30 [1] CRAN (R 4.1.0)
-##  bslib                  0.4.0    2022-07-16 [1] CRAN (R 4.1.2)
-##  cachem                 1.0.6    2021-08-19 [1] CRAN (R 4.1.0)
-##  callr                  3.7.0    2021-04-20 [1] CRAN (R 4.1.0)
-##  caTools                1.18.2   2021-03-28 [1] CRAN (R 4.1.0)
-##  cli                    3.4.1    2022-09-23 [1] CRAN (R 4.1.2)
-##  cluster                2.1.2    2021-04-17 [1] CRAN (R 4.1.2)
-##  codetools              0.2-18   2020-11-04 [1] CRAN (R 4.1.2)
-##  colorspace             2.0-3    2022-02-21 [1] CRAN (R 4.1.2)
-##  crayon                 1.5.0    2022-02-14 [1] CRAN (R 4.1.2)
-##  data.table             1.14.6   2022-11-16 [1] CRAN (R 4.1.2)
-##  DBI                    1.1.2    2021-12-20 [1] CRAN (R 4.1.0)
-##  DelayedArray           0.20.0   2021-10-26 [1] Bioconductor
-##  desc                   1.4.1    2022-03-06 [1] CRAN (R 4.1.2)
-##  DESeq2                 1.34.0   2021-10-26 [1] Bioconductor
-##  devtools               2.4.3    2021-11-30 [1] CRAN (R 4.1.0)
-##  digest                 0.6.30   2022-10-18 [1] CRAN (R 4.1.2)
-##  dplyr                * 1.0.10   2022-09-01 [1] CRAN (R 4.1.2)
-##  ellipsis               0.3.2    2021-04-29 [1] CRAN (R 4.1.0)
-##  evaluate               0.17     2022-10-07 [1] CRAN (R 4.1.2)
-##  fansi                  1.0.2    2022-01-14 [1] CRAN (R 4.1.2)
-##  fastmap                1.1.0    2021-01-25 [1] CRAN (R 4.1.0)
-##  foreach                1.5.2    2022-02-02 [1] CRAN (R 4.1.2)
-##  fs                     1.5.2    2021-12-08 [1] CRAN (R 4.1.0)
-##  genefilter             1.76.0   2021-10-26 [1] Bioconductor
-##  geneplotter            1.72.0   2021-10-26 [1] Bioconductor
-##  generics               0.1.2    2022-01-31 [1] CRAN (R 4.1.2)
-##  GenomeInfoDb         * 1.30.1   2022-01-30 [1] Bioconductor
-##  GenomeInfoDbData       1.2.7    2022-03-09 [1] Bioconductor
-##  GenomicRanges        * 1.46.1   2021-11-18 [1] Bioconductor
-##  ggplot2                3.4.0    2022-11-04 [1] CRAN (R 4.1.2)
-##  glmnet                 4.1-3    2021-11-02 [1] CRAN (R 4.1.0)
-##  glue                   1.6.2    2022-02-24 [1] CRAN (R 4.1.2)
-##  gplots                 3.1.1    2020-11-28 [1] CRAN (R 4.1.0)
-##  gtable                 0.3.0    2019-03-25 [1] CRAN (R 4.1.0)
-##  gtools                 3.9.2    2021-06-06 [1] CRAN (R 4.1.0)
-##  highr                  0.9      2021-04-16 [1] CRAN (R 4.1.0)
-##  htmltools              0.5.3    2022-07-18 [1] CRAN (R 4.1.2)
-##  httr                   1.4.2    2020-07-20 [1] CRAN (R 4.1.0)
-##  igraph                 1.2.11   2022-01-04 [1] CRAN (R 4.1.2)
-##  impute                 1.68.0   2021-10-26 [1] Bioconductor
-##  IRanges              * 2.28.0   2021-10-26 [1] Bioconductor
-##  iterators              1.0.14   2022-02-05 [1] CRAN (R 4.1.2)
-##  jquerylib              0.1.4    2021-04-26 [1] CRAN (R 4.1.0)
-##  jsonlite               1.8.3    2022-10-21 [1] CRAN (R 4.1.2)
-##  KEGGREST               1.34.0   2021-10-26 [1] Bioconductor
-##  KernSmooth             2.23-20  2021-05-03 [1] CRAN (R 4.1.2)
-##  knitr                  1.40     2022-08-24 [1] CRAN (R 4.1.2)
-##  lattice                0.20-45  2021-09-22 [1] CRAN (R 4.1.2)
-##  lifecycle              1.0.3    2022-10-07 [1] CRAN (R 4.1.2)
-##  limma                  3.50.1   2022-02-17 [1] Bioconductor
-##  locfit                 1.5-9.5  2022-03-03 [1] CRAN (R 4.1.2)
-##  magrittr               2.0.3    2022-03-30 [1] CRAN (R 4.1.2)
-##  MASS                   7.3-55   2022-01-13 [1] CRAN (R 4.1.2)
-##  Matrix                 1.4-0    2021-12-08 [1] CRAN (R 4.1.0)
-##  MatrixGenerics       * 1.6.0    2021-10-26 [1] Bioconductor
-##  matrixStats          * 0.61.0   2021-09-17 [1] CRAN (R 4.1.0)
-##  memoise                2.0.1    2021-11-26 [1] CRAN (R 4.1.0)
-##  metagenomeSeq          1.36.0   2021-10-26 [1] Bioconductor
-##  mgcv                   1.8-39   2022-02-24 [1] CRAN (R 4.1.2)
-##  microbiome             1.16.0   2021-10-26 [1] Bioconductor
-##  MicrobiomeAnalysis   * 1.0.3    2023-01-12 [1] Bioconductor
-##  multtest               2.50.0   2021-10-26 [1] Bioconductor
-##  munsell                0.5.0    2018-06-12 [1] CRAN (R 4.1.0)
-##  nlme                   3.1-155  2022-01-13 [1] CRAN (R 4.1.2)
-##  nloptr                 2.0.0    2022-01-26 [1] CRAN (R 4.1.2)
-##  permute                0.9-7    2022-01-27 [1] CRAN (R 4.1.2)
-##  phyloseq             * 1.38.0   2021-10-26 [1] Bioconductor
-##  pillar                 1.7.0    2022-02-01 [1] CRAN (R 4.1.2)
-##  pkgbuild               1.3.1    2021-12-20 [1] CRAN (R 4.1.0)
-##  pkgconfig              2.0.3    2019-09-22 [1] CRAN (R 4.1.0)
-##  pkgload                1.2.4    2021-11-30 [1] CRAN (R 4.1.0)
-##  plyr                   1.8.6    2020-03-03 [1] CRAN (R 4.1.0)
-##  png                    0.1-7    2013-12-03 [1] CRAN (R 4.1.0)
-##  prettyunits            1.1.1    2020-01-24 [1] CRAN (R 4.1.0)
-##  processx               3.5.2    2021-04-30 [1] CRAN (R 4.1.0)
-##  ps                     1.6.0    2021-02-28 [1] CRAN (R 4.1.0)
-##  purrr                  0.3.4    2020-04-17 [1] CRAN (R 4.1.0)
-##  R6                     2.5.1    2021-08-19 [1] CRAN (R 4.1.0)
-##  rbibutils              2.2.7    2021-12-07 [1] CRAN (R 4.1.0)
-##  RColorBrewer           1.1-2    2014-12-07 [1] CRAN (R 4.1.0)
-##  Rcpp                   1.0.9    2022-07-08 [1] CRAN (R 4.1.2)
-##  RCurl                  1.98-1.6 2022-02-08 [1] CRAN (R 4.1.2)
-##  Rdpack                 2.2      2022-03-19 [1] CRAN (R 4.1.2)
-##  remotes                2.4.2    2021-11-30 [1] CRAN (R 4.1.0)
-##  reshape2               1.4.4    2020-04-09 [1] CRAN (R 4.1.0)
-##  rhdf5                  2.38.1   2022-03-10 [1] Bioconductor
-##  rhdf5filters           1.6.0    2021-10-26 [1] Bioconductor
-##  Rhdf5lib               1.16.0   2021-10-26 [1] Bioconductor
-##  rlang                  1.0.6    2022-09-24 [1] CRAN (R 4.1.2)
-##  rmarkdown              2.17     2022-10-07 [1] CRAN (R 4.1.2)
-##  rprojroot              2.0.2    2020-11-15 [1] CRAN (R 4.1.0)
-##  RSQLite                2.2.10   2022-02-17 [1] CRAN (R 4.1.2)
-##  rstudioapi             0.13     2020-11-12 [1] CRAN (R 4.1.0)
-##  Rtsne                  0.15     2018-11-10 [1] CRAN (R 4.1.0)
-##  S4Vectors            * 0.32.3   2021-11-21 [1] Bioconductor
-##  sass                   0.4.2    2022-07-16 [1] CRAN (R 4.1.2)
-##  scales                 1.2.1    2022-08-20 [1] CRAN (R 4.1.2)
-##  sessioninfo            1.2.2    2021-12-06 [1] CRAN (R 4.1.0)
-##  shape                  1.4.6    2021-05-19 [1] CRAN (R 4.1.0)
-##  stringi                1.7.8    2022-07-11 [1] CRAN (R 4.1.2)
-##  stringr                1.4.1    2022-08-20 [1] CRAN (R 4.1.2)
-##  SummarizedExperiment * 1.24.0   2021-10-26 [1] Bioconductor
-##  survival               3.4-0    2022-08-09 [1] CRAN (R 4.1.2)
-##  testthat               3.1.2    2022-01-20 [1] CRAN (R 4.1.2)
-##  tibble               * 3.1.8    2022-07-22 [1] CRAN (R 4.1.2)
-##  tidyr                  1.2.0    2022-02-01 [1] CRAN (R 4.1.2)
-##  tidyselect             1.1.2    2022-02-21 [1] CRAN (R 4.1.2)
-##  tinytex                0.42     2022-09-27 [1] CRAN (R 4.1.2)
-##  usethis                2.1.5    2021-12-09 [1] CRAN (R 4.1.0)
-##  utf8                   1.2.2    2021-07-24 [1] CRAN (R 4.1.0)
-##  vctrs                  0.5.1    2022-11-16 [1] CRAN (R 4.1.2)
-##  vegan                  2.5-7    2020-11-28 [1] CRAN (R 4.1.0)
-##  withr                  2.5.0    2022-03-03 [1] CRAN (R 4.1.2)
-##  Wrench                 1.12.0   2021-10-26 [1] Bioconductor
-##  xfun                   0.34     2022-10-18 [1] CRAN (R 4.1.2)
-##  XML                    3.99-0.9 2022-02-24 [1] CRAN (R 4.1.2)
-##  xtable                 1.8-4    2019-04-21 [1] CRAN (R 4.1.0)
-##  XVector                0.34.0   2021-10-26 [1] Bioconductor
-##  yaml                   2.3.6    2022-10-18 [1] CRAN (R 4.1.2)
-##  zlibbioc               1.40.0   2021-10-26 [1] Bioconductor
+## - Packages ------------------------------------------------------------------------------------------------------------------------------------
+##  package              * version    date (UTC) lib source
+##  ade4                   1.7-22     2023-02-06 [2] CRAN (R 4.1.2)
+##  ANCOMBC                1.4.0      2021-10-26 [2] Bioconductor
+##  annotate               1.72.0     2021-10-26 [2] Bioconductor
+##  AnnotationDbi          1.60.2     2023-03-10 [2] Bioconductor
+##  ape                    5.7-1      2023-03-13 [2] CRAN (R 4.1.2)
+##  backports              1.4.1      2021-12-13 [2] CRAN (R 4.1.0)
+##  base64enc              0.1-3      2015-07-28 [2] CRAN (R 4.1.0)
+##  Biobase              * 2.54.0     2021-10-26 [2] Bioconductor
+##  BiocGenerics         * 0.40.0     2021-10-26 [2] Bioconductor
+##  BiocParallel           1.28.3     2021-12-09 [2] Bioconductor
+##  biomformat             1.22.0     2021-10-26 [2] Bioconductor
+##  Biostrings             2.62.0     2021-10-26 [2] Bioconductor
+##  bit                    4.0.5      2022-11-15 [2] CRAN (R 4.1.2)
+##  bit64                  4.0.5      2020-08-30 [2] CRAN (R 4.1.0)
+##  bitops                 1.0-7      2021-04-24 [2] CRAN (R 4.1.0)
+##  blob                   1.2.4      2023-03-17 [2] CRAN (R 4.1.2)
+##  bookdown               0.34       2023-05-09 [2] CRAN (R 4.1.2)
+##  broom                  1.0.5      2023-06-09 [2] CRAN (R 4.1.3)
+##  bslib                  0.5.0      2023-06-09 [2] CRAN (R 4.1.3)
+##  cachem                 1.0.8      2023-05-01 [2] CRAN (R 4.1.2)
+##  callr                  3.7.3      2022-11-02 [2] CRAN (R 4.1.2)
+##  caret                * 6.0-94     2023-03-21 [2] CRAN (R 4.1.2)
+##  caTools                1.18.2     2021-03-28 [2] CRAN (R 4.1.0)
+##  cellranger             1.1.0      2016-07-27 [2] CRAN (R 4.1.0)
+##  checkmate              2.2.0      2023-04-27 [2] CRAN (R 4.1.2)
+##  class                  7.3-22     2023-05-03 [2] CRAN (R 4.1.2)
+##  cli                    3.6.1      2023-03-23 [2] CRAN (R 4.1.2)
+##  cluster                2.1.4      2022-08-22 [2] CRAN (R 4.1.2)
+##  codetools              0.2-19     2023-02-01 [2] CRAN (R 4.1.2)
+##  colorspace             2.1-0      2023-01-23 [2] CRAN (R 4.1.2)
+##  cowplot                1.1.1      2020-12-30 [2] CRAN (R 4.1.0)
+##  crayon                 1.5.2      2022-09-29 [2] CRAN (R 4.1.2)
+##  crosstalk              1.2.0      2021-11-04 [2] CRAN (R 4.1.0)
+##  data.table           * 1.14.8     2023-02-17 [2] CRAN (R 4.1.2)
+##  DBI                    1.1.3      2022-06-18 [2] CRAN (R 4.1.2)
+##  DelayedArray           0.20.0     2021-10-26 [2] Bioconductor
+##  DESeq2                 1.34.0     2021-10-26 [2] Bioconductor
+##  devtools               2.4.5      2022-10-11 [2] CRAN (R 4.1.2)
+##  digest                 0.6.33     2023-07-07 [1] CRAN (R 4.1.3)
+##  dplyr                * 1.1.2      2023-04-20 [2] CRAN (R 4.1.2)
+##  DT                     0.28       2023-05-18 [2] CRAN (R 4.1.3)
+##  e1071                  1.7-13     2023-02-01 [2] CRAN (R 4.1.2)
+##  ellipsis               0.3.2      2021-04-29 [2] CRAN (R 4.1.0)
+##  evaluate               0.21       2023-05-05 [2] CRAN (R 4.1.2)
+##  fansi                  1.0.4      2023-01-22 [2] CRAN (R 4.1.2)
+##  farver                 2.1.1      2022-07-06 [2] CRAN (R 4.1.2)
+##  fastmap                1.1.1      2023-02-24 [2] CRAN (R 4.1.2)
+##  forcats              * 1.0.0      2023-01-29 [2] CRAN (R 4.1.2)
+##  foreach                1.5.2      2022-02-02 [2] CRAN (R 4.1.2)
+##  foreign                0.8-84     2022-12-06 [2] CRAN (R 4.1.2)
+##  Formula                1.2-5      2023-02-24 [2] CRAN (R 4.1.2)
+##  fs                     1.6.2      2023-04-25 [2] CRAN (R 4.1.2)
+##  future                 1.33.0     2023-07-01 [2] CRAN (R 4.1.3)
+##  future.apply           1.11.0     2023-05-21 [2] CRAN (R 4.1.3)
+##  geepack              * 1.3.9      2022-08-16 [1] CRAN (R 4.1.2)
+##  genefilter             1.76.0     2021-10-26 [2] Bioconductor
+##  geneplotter            1.72.0     2021-10-26 [2] Bioconductor
+##  generics               0.1.3      2022-07-05 [2] CRAN (R 4.1.2)
+##  GenomeInfoDb         * 1.30.1     2022-01-30 [2] Bioconductor
+##  GenomeInfoDbData       1.2.7      2022-03-09 [2] Bioconductor
+##  GenomicRanges        * 1.46.1     2021-11-18 [2] Bioconductor
+##  ggplot2              * 3.4.2      2023-04-03 [2] CRAN (R 4.1.2)
+##  glmnet                 4.1-7      2023-03-23 [2] CRAN (R 4.1.2)
+##  globals                0.16.2     2022-11-21 [2] CRAN (R 4.1.2)
+##  glue                   1.6.2      2022-02-24 [2] CRAN (R 4.1.2)
+##  gower                  1.0.1      2022-12-22 [2] CRAN (R 4.1.2)
+##  gplots                 3.1.3      2022-04-25 [2] CRAN (R 4.1.2)
+##  gridExtra              2.3        2017-09-09 [2] CRAN (R 4.1.0)
+##  gtable                 0.3.3      2023-03-21 [2] CRAN (R 4.1.2)
+##  gtools                 3.9.4      2022-11-27 [2] CRAN (R 4.1.2)
+##  hardhat                1.3.0      2023-03-30 [2] CRAN (R 4.1.2)
+##  here                   1.0.1      2020-12-13 [2] CRAN (R 4.1.0)
+##  highr                  0.10       2022-12-22 [2] CRAN (R 4.1.2)
+##  Hmisc                * 5.1-0      2023-05-08 [2] CRAN (R 4.1.2)
+##  hms                    1.1.3      2023-03-21 [2] CRAN (R 4.1.2)
+##  htmlTable              2.4.1      2022-07-07 [2] CRAN (R 4.1.2)
+##  htmltools              0.5.5      2023-03-23 [2] CRAN (R 4.1.2)
+##  htmlwidgets            1.6.2      2023-03-17 [2] CRAN (R 4.1.2)
+##  httpuv                 1.6.11     2023-05-11 [2] CRAN (R 4.1.3)
+##  httr                   1.4.6      2023-05-08 [2] CRAN (R 4.1.2)
+##  igraph                 1.5.0      2023-06-16 [1] CRAN (R 4.1.3)
+##  impute                 1.68.0     2021-10-26 [2] Bioconductor
+##  ipred                  0.9-14     2023-03-09 [2] CRAN (R 4.1.2)
+##  IRanges              * 2.28.0     2021-10-26 [2] Bioconductor
+##  iterators              1.0.14     2022-02-05 [2] CRAN (R 4.1.2)
+##  jquerylib              0.1.4      2021-04-26 [2] CRAN (R 4.1.0)
+##  jsonlite               1.8.7      2023-06-29 [2] CRAN (R 4.1.3)
+##  KEGGREST               1.34.0     2021-10-26 [2] Bioconductor
+##  KernSmooth             2.23-22    2023-07-10 [2] CRAN (R 4.1.3)
+##  knitr                  1.43       2023-05-25 [2] CRAN (R 4.1.3)
+##  labeling               0.4.2      2020-10-20 [2] CRAN (R 4.1.0)
+##  later                  1.3.1      2023-05-02 [2] CRAN (R 4.1.2)
+##  lattice              * 0.21-8     2023-04-05 [2] CRAN (R 4.1.2)
+##  lava                   1.7.2.1    2023-02-27 [2] CRAN (R 4.1.2)
+##  lifecycle              1.0.3      2022-10-07 [2] CRAN (R 4.1.2)
+##  limma                  3.50.3     2022-04-07 [2] Bioconductor
+##  listenv                0.9.0      2022-12-16 [2] CRAN (R 4.1.2)
+##  locfit                 1.5-9.8    2023-06-11 [2] CRAN (R 4.1.3)
+##  lubridate            * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)
+##  magrittr               2.0.3      2022-03-30 [2] CRAN (R 4.1.2)
+##  MASS                   7.3-60     2023-05-04 [2] CRAN (R 4.1.2)
+##  Matrix                 1.6-0      2023-07-08 [2] CRAN (R 4.1.3)
+##  MatrixGenerics       * 1.6.0      2021-10-26 [2] Bioconductor
+##  MatrixModels           0.5-2      2023-07-10 [2] CRAN (R 4.1.3)
+##  matrixStats          * 1.0.0      2023-06-02 [2] CRAN (R 4.1.3)
+##  memoise                2.0.1      2021-11-26 [2] CRAN (R 4.1.0)
+##  metagenomeSeq          1.36.0     2021-10-26 [2] Bioconductor
+##  mgcv                   1.8-42     2023-03-02 [2] CRAN (R 4.1.2)
+##  microbiome             1.16.0     2021-10-26 [2] Bioconductor
+##  MicrobiomeAnalysis   * 1.0.3      2023-08-16 [1] Bioconductor
+##  mime                   0.12       2021-09-28 [2] CRAN (R 4.1.0)
+##  miniUI                 0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)
+##  ModelMetrics           1.2.2.2    2020-03-17 [2] CRAN (R 4.1.0)
+##  multcomp               1.4-25     2023-06-20 [2] CRAN (R 4.1.3)
+##  multtest               2.50.0     2021-10-26 [2] Bioconductor
+##  munsell                0.5.0      2018-06-12 [2] CRAN (R 4.1.0)
+##  mvtnorm                1.2-2      2023-06-08 [2] CRAN (R 4.1.3)
+##  nlme                 * 3.1-162    2023-01-31 [2] CRAN (R 4.1.2)
+##  nloptr                 2.0.3      2022-05-26 [2] CRAN (R 4.1.2)
+##  nnet                   7.3-19     2023-05-03 [2] CRAN (R 4.1.2)
+##  parallelly             1.36.0     2023-05-26 [2] CRAN (R 4.1.3)
+##  permute                0.9-7      2022-01-27 [2] CRAN (R 4.1.2)
+##  phyloseq             * 1.38.0     2021-10-26 [2] Bioconductor
+##  pillar                 1.9.0      2023-03-22 [2] CRAN (R 4.1.2)
+##  pkgbuild               1.4.2      2023-06-26 [2] CRAN (R 4.1.3)
+##  pkgconfig              2.0.3      2019-09-22 [2] CRAN (R 4.1.0)
+##  pkgload                1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)
+##  plyr                   1.8.8      2022-11-11 [2] CRAN (R 4.1.2)
+##  png                    0.1-8      2022-11-29 [2] CRAN (R 4.1.2)
+##  polspline              1.1.23     2023-06-29 [1] CRAN (R 4.1.3)
+##  prettyunits            1.1.1      2020-01-24 [2] CRAN (R 4.1.0)
+##  pROC                 * 1.18.4     2023-07-06 [2] CRAN (R 4.1.3)
+##  processx               3.8.2      2023-06-30 [2] CRAN (R 4.1.3)
+##  prodlim                2023.03.31 2023-04-02 [2] CRAN (R 4.1.2)
+##  profvis                0.3.8      2023-05-02 [2] CRAN (R 4.1.2)
+##  promises               1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)
+##  proxy                  0.4-27     2022-06-09 [2] CRAN (R 4.1.2)
+##  ps                     1.7.5      2023-04-18 [2] CRAN (R 4.1.2)
+##  purrr                * 1.0.1      2023-01-10 [2] CRAN (R 4.1.2)
+##  quantreg               5.95       2023-04-08 [2] CRAN (R 4.1.2)
+##  R6                     2.5.1      2021-08-19 [2] CRAN (R 4.1.0)
+##  randomForest         * 4.7-1.1    2022-05-23 [2] CRAN (R 4.1.2)
+##  rbibutils              2.2.13     2023-01-13 [2] CRAN (R 4.1.2)
+##  RColorBrewer           1.1-3      2022-04-03 [2] CRAN (R 4.1.2)
+##  Rcpp                   1.0.11     2023-07-06 [1] CRAN (R 4.1.3)
+##  RCurl                  1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)
+##  Rdpack                 2.4        2022-07-20 [2] CRAN (R 4.1.2)
+##  readr                * 2.1.4      2023-02-10 [2] CRAN (R 4.1.2)
+##  readxl                 1.4.3      2023-07-06 [2] CRAN (R 4.1.3)
+##  recipes                1.0.6      2023-04-25 [2] CRAN (R 4.1.2)
+##  remotes                2.4.2      2021-11-30 [2] CRAN (R 4.1.0)
+##  reshape2               1.4.4      2020-04-09 [2] CRAN (R 4.1.0)
+##  reticulate             1.30       2023-06-09 [2] CRAN (R 4.1.3)
+##  rhdf5                  2.38.1     2022-03-10 [2] Bioconductor
+##  rhdf5filters           1.6.0      2021-10-26 [2] Bioconductor
+##  Rhdf5lib               1.16.0     2021-10-26 [2] Bioconductor
+##  rlang                  1.1.1      2023-04-28 [1] CRAN (R 4.1.2)
+##  rmarkdown              2.23       2023-07-01 [2] CRAN (R 4.1.3)
+##  rms                  * 6.7-0      2023-05-08 [1] CRAN (R 4.1.2)
+##  ropls                * 1.26.4     2022-01-11 [2] Bioconductor
+##  rpart                  4.1.19     2022-10-21 [2] CRAN (R 4.1.2)
+##  rprojroot              2.0.3      2022-04-02 [2] CRAN (R 4.1.2)
+##  RSQLite                2.3.1      2023-04-03 [2] CRAN (R 4.1.2)
+##  rstudioapi             0.15.0     2023-07-07 [2] CRAN (R 4.1.3)
+##  Rtsne                  0.16       2022-04-17 [2] CRAN (R 4.1.2)
+##  S4Vectors            * 0.32.4     2022-03-29 [2] Bioconductor
+##  sandwich               3.0-2      2022-06-15 [2] CRAN (R 4.1.2)
+##  sass                   0.4.6      2023-05-03 [2] CRAN (R 4.1.2)
+##  scales                 1.2.1      2022-08-20 [2] CRAN (R 4.1.2)
+##  sessioninfo            1.2.2      2021-12-06 [2] CRAN (R 4.1.0)
+##  shape                  1.4.6      2021-05-19 [2] CRAN (R 4.1.0)
+##  shiny                  1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)
+##  SparseM                1.81       2021-02-18 [2] CRAN (R 4.1.0)
+##  stringi                1.7.12     2023-01-11 [2] CRAN (R 4.1.2)
+##  stringr              * 1.5.0      2022-12-02 [2] CRAN (R 4.1.2)
+##  SummarizedExperiment * 1.24.0     2021-10-26 [2] Bioconductor
+##  survival               3.5-5      2023-03-12 [2] CRAN (R 4.1.2)
+##  TH.data                1.1-2      2023-04-17 [2] CRAN (R 4.1.2)
+##  tibble               * 3.2.1      2023-03-20 [2] CRAN (R 4.1.2)
+##  tidyr                * 1.3.0      2023-01-24 [2] CRAN (R 4.1.2)
+##  tidyselect             1.2.0      2022-10-10 [2] CRAN (R 4.1.2)
+##  tidyverse            * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)
+##  timechange             0.2.0      2023-01-11 [2] CRAN (R 4.1.2)
+##  timeDate               4022.108   2023-01-07 [2] CRAN (R 4.1.2)
+##  tinytex                0.45       2023-04-18 [2] CRAN (R 4.1.2)
+##  tzdb                   0.4.0      2023-05-12 [2] CRAN (R 4.1.3)
+##  urlchecker             1.0.1      2021-11-30 [2] CRAN (R 4.1.0)
+##  usethis                2.2.2      2023-07-06 [2] CRAN (R 4.1.3)
+##  utf8                   1.2.3      2023-01-31 [2] CRAN (R 4.1.2)
+##  vctrs                  0.6.3      2023-06-14 [1] CRAN (R 4.1.3)
+##  vegan                  2.6-4      2022-10-11 [2] CRAN (R 4.1.2)
+##  viridisLite            0.4.2      2023-05-02 [2] CRAN (R 4.1.2)
+##  withr                  2.5.0      2022-03-03 [2] CRAN (R 4.1.2)
+##  Wrench                 1.12.0     2021-10-26 [2] Bioconductor
+##  xfun                   0.39       2023-04-20 [2] CRAN (R 4.1.2)
+##  XML                    3.99-0.14  2023-03-19 [2] CRAN (R 4.1.2)
+##  xtable                 1.8-4      2019-04-21 [2] CRAN (R 4.1.0)
+##  XVector                0.34.0     2021-10-26 [2] Bioconductor
+##  yaml                   2.3.7      2023-01-23 [2] CRAN (R 4.1.2)
+##  zlibbioc               1.40.0     2021-10-26 [2] Bioconductor
+##  zoo                    1.8-12     2023-04-13 [2] CRAN (R 4.1.2)
 ## 
-##  [1] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
+##  [1] /Users/zouhua/Library/R/x86_64/4.1/library
+##  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
 ## 
-## ------------------------------------------------------------------------------------------------------------------------------
+## - Python configuration ------------------------------------------------------------------------------------------------------------------------
+##  python:         /Users/zouhua/opt/anaconda3/bin/python3.9
+##  libpython:      /Users/zouhua/opt/anaconda3/lib/libpython3.9.dylib
+##  pythonhome:     /Users/zouhua/opt/anaconda3:/Users/zouhua/opt/anaconda3
+##  version:        3.9.16 | packaged by conda-forge | (main, Feb  1 2023, 21:42:20)  [Clang 14.0.6 ]
+##  numpy:          /Users/zouhua/opt/anaconda3/lib/python3.9/site-packages/numpy
+##  numpy_version:  1.23.3
+##  
+##  NOTE: Python version was forced by use_python function
+## 
+## -----------------------------------------------------------------------------------------------------------------------------------------------
 \end{verbatim}
 
   \bibliography{assets/book.bib,assets/packages.bib}

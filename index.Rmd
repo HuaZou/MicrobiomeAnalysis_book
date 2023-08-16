@@ -82,7 +82,7 @@ We list here the main methodological or theoretical concepts you need to know to
 
 + **Chapter [2](https://zouhua.top/MicrobiomeAnalysis_book/how-to-install-microbiomeanalysis.html)**: How to install `MicrobiomeAnalysis`
 
-+ **Chapter [3](https://zouhua.top/MicrobiomeAnalysis_book/data-processing.html)**: Data Processing
++ **Chapter [3](https://zouhua.top/MicrobiomeAnalysis_book/data-processing.html)**: Data PreProcessing
 
 
 ## Citation

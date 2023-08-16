@@ -123,13 +123,18 @@ ps_summarize_genus <- summarize_taxa(
 ps_summarize_genus
 ```
 
+
 ## Data Transformation
 
-5 methods to transform individual values (**by individual value**).
+7 methods to transform individual values (**by individual value**).
 
 + "log10", the transformation is log10(object), and if the data contains zeros the transformation is log10(1 + object).
 
 + "log10p", the transformation is log10(1 + object).
+
++ "log2", the transformation is log2(object), and if the data contains zeros the transformation is log2(1 + object).
+
++ "log2p", the transformation is log2(1 + object).
 
 + "SquareRoot", the transformation is Square Root.
 
@@ -201,7 +206,7 @@ ps_impute <- impute_abundance(
 head(ps_impute@otu_table@.Data[, 1:5], 3)
 ```
 
-+ Inputs is from `SummarizedExperiment-class`.
++ Inputs are from `SummarizedExperiment-class`.
 ```{r}
 data("Zeybel_2022_protein")
 se_impute <- impute_abundance(
@@ -244,7 +249,6 @@ head(ps_norm@otu_table@.Data[, 1:5], 3)
 ```
 
 
-
 ## Data Scaling
 
 Data scaling adjusts each variable/feature by a scaling factor computed based on the dispersion of the variable (**by variable/feature**).
@@ -269,7 +273,7 @@ ps_scale <- scale_variables(
 head(ps_scale@otu_table@.Data[, 1:5], 3)
 ```
 
-Inputs is from `SummarizedExperiment-class`.
+Inputs are from `SummarizedExperiment-class`.
 ```{r}
 data("Zeybel_2022_protein")
 
@@ -287,6 +291,7 @@ se_scale <- scale_variables(
 
 head(assay(se_scale)[, 1:5], 3)
 ```
+
 
 ## Data Trimming
 
@@ -313,7 +318,7 @@ ps_trim <- trim_prevalence(
 ps_trim
 ```
 
-Inputs is from `SummarizedExperiment-class`.
+Inputs are from `SummarizedExperiment-class`.
 ```{r}
 data("Zeybel_2022_protein")
 se_trim <- trim_prevalence(
@@ -360,7 +365,7 @@ ps_filter_relative <- filter_abundance(
 ps_filter_relative
 ```
 
-Inputs is from `SummarizedExperiment-class`.
+Inputs are from `SummarizedExperiment-class`.
 ```{r}
 data("Zeybel_2022_protein")
 se_filter <- filter_abundance(
